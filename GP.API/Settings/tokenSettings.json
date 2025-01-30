@@ -1,0 +1,9 @@
+{
+  "TokenSettings": {
+    "JwtKey": "24CEF74A-5A77-4C31-B20D-76E9AFA189C5",
+    "JwtIssuer": "EF26FB03-3A54-429E-A70D-DA9A81C8E563",
+    "RememberMeRefreshTokenExpireDays": 90,
+    "JwtExpireMinutes": 30,
+    "RefreshTokenExpireMinutes": 240
+  }
+}

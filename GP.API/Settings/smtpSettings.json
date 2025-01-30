@@ -1,0 +1,8 @@
+{
+  "SmtpSettings": {
+    "Host": "test",
+    "Port": "587",
+    "DisplayName": "Manager Email",
+    "FromMail": "test001@aih.az"
+  }
+}

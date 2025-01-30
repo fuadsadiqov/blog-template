@@ -1,0 +1,7 @@
+﻿{
+  "AuthSettings": {
+    "LockoutExpiry": 60,
+    "MaxFailedAccessAttempts": 10,
+    "OtpExpiry": 5
+  }
+}

@@ -1,0 +1,9 @@
+{
+  "SmtpSettings": {
+    "Host": "localhost",
+    "Port": "587",
+    "DisplayName": "Yeni tap??r?q",
+    "FromMail": "test@test.com",
+    "ToMail": "default@test.com"
+  }
+}

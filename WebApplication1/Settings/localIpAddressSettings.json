@@ -1,0 +1,6 @@
+{
+  "LocalIpAddressSettings": {
+    "LanIpAddressPattern": "10.10.10",
+    "WiFiIpAddressPattern": "10.10.20"
+  }
+}
