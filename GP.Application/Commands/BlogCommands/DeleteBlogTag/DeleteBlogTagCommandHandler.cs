@@ -4,6 +4,7 @@ using GP.Infrastructure.Services;
 using GP.DataAccess.Repository;
 using MediatR;
 using GP.DataAccess.Repository.BlogTagRepository;
+using Microsoft.EntityFrameworkCore;
 
 namespace GP.Application.Commands.BlogCommands.DeleteBlogTag
 {
@@ -26,14 +27,14 @@ namespace GP.Application.Commands.BlogCommands.DeleteBlogTag
 
         public async Task<DeleteBlogTagResponse> Handle(DeleteBlogTagCommand command, CancellationToken cancellationToken)
         {
-            //var productId = command.Request.Id;
+            var blogId = command.Request.Id;
 
-            //var productTags = await _productTagRepository.FindBy(pT => pT.ProductId == productId).ToListAsync(cancellationToken);
+            var blogTags = await _blogTagRepository.FindBy(bT => bT.BlogId == blogId).ToListAsync(cancellationToken);
 
-            //foreach (var productTag in productTags)
-            //{
-            //    _productTagRepository.Delete(productTag);
-            //}
+            foreach (var blogTag in blogTags)
+            {
+                _blogTagRepository.Delete(blogTag, false);
+            }
 
             await _unitOfWork.CompleteAsync();
 

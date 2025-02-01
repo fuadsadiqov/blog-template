@@ -1,9 +1,10 @@
 ﻿using GP.Application.Commands.BlogCommands.SetBlogTag;
 
-namespace GP.Application.Commands.BlogCommands.AddBlog
+namespace GP.Application.Commands.BlogCommands.UpdateBlog
 {
-    public class AddBlogRequest
+    public class UpdateBlogRequest
     {
+        public Guid Id { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
         public string CoverImage { get; set; }

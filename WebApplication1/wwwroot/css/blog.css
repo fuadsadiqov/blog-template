@@ -1,0 +1,28 @@
+.tag-container{
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-top: 10px;
+    max-height: 250px;
+    overflow-y: scroll;
+    width: 100%;
+    z-index: 10;
+}
+
+.tag-item{
+    padding: 0.5rem;
+    margin-bottom: 0;
+    cursor: pointer;
+}
+
+.tag-item:hover{
+    background-color: #efefef;
+}
+.selected-tag {
+    display: inline-block;
+    padding: 5px 10px;
+    background-color: #17a2b8;
+    color: white;
+    border-radius: 5px;
+    margin: 3px;
+    cursor: pointer;
+}

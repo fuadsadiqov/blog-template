@@ -1,0 +1,74 @@
+@model BlogViewModel
+@{
+    var blog = Model.Blog ?? null;
+    var categories = Model.Categories;
+    var tags = Model.Tags;
+    var blogTags = "";
+    
+    if (blog is not null)
+    {
+        foreach (var blogTag in blog.Tags)
+        {
+            blogTags = blogTag.TagId + "," + blogTags;
+        }
+    }
+}
+<form asp-controller="Blog" asp-action="@(blog != null ? "Edit" : "Add")" method="post">
+    <div class="form-group">
+        @if (@blog != null)
+        {
+            <input type="hidden" value="@blog.Id" class="form-control" name="id">
+        }
+        <div>
+            <label for="category">Kateqoriya</label>
+            <select class="form-control" name="categoryId" id="category">
+                @foreach (var category in categories)
+                {
+                    <option value="@category.Id">@category.Title</option>
+                }
+            </select>
+        </div>
+        <div>
+            <label for="name">Başlıq</label>
+            <input type="text" value="@(blog == null ? "" : blog.Name)" class="form-control" id="name" name="name" placeholder="Başlıq">
+        </div>
+        <div>
+            <label for="coverImage">Şəkil</label>
+            <input type="text" value="@(blog == null ? "" : blog.CoverImage)" class="form-control" id="coverImage" name="coverImage" placeholder="Şəkil">
+        </div>
+        <div>
+            <label for="description">Məzmun</label>
+            <textarea class="form-control" placeholder="Açıqlama" name="description" id="description" cols="30" rows="10">@(blog == null ? "" : blog.Description)</textarea>
+        </div>
+        <div>
+            <label for="tagsSelect">Tags</label>
+            <div id="blogTagList"></div>
+            @if (blog != null)
+            {
+                <div class="d-none" id="blogTags">@blogTags</div>    
+            }
+            <input type="hidden" name="tags">
+            <input type="text" autocomplete="off" class="form-control" id="tagInput">
+            <div class="tag-container d-none position-absolute border bg-white" id="tagContainer">
+                @if (tags.Count > 0)
+                {
+                    foreach (var tag in tags)
+                    {
+                        <p class="tag-item" data-tag-name="@tag.Value">@tag.Text</p>
+                    }
+                }
+            </div>
+        </div>
+    </div>
+    <button type="submit" class="btn @(blog == null ? "btn-success" : "btn-primary") mt-2">
+        @(blog == null ? "Əlavə et" : "Dəyiş")
+    </button>
+</form>
+
+<script>
+      tinymce.init({
+          selector: 'textarea',
+          plugins: 'anchor autolink charmap codesample emoticons image link lists media searchreplace table visualblocks wordcount',
+          toolbar: 'undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | link image media table | align lineheight | numlist bullist indent outdent | emoticons charmap | removeformat',
+      });
+</script>

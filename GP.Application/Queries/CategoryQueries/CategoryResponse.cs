@@ -10,5 +10,7 @@ namespace  GP.Application.CategoryQueries
     {
         public Guid Id { get; set; }
         public string? Title { get; set; }
+        public DateTime DateCreated { get; set; }
+        public string Date => DateCreated.ToString("MMMM dd, yyyy");
     }
 }

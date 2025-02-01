@@ -1,0 +1,17 @@
+@model GP.Domain.Entities.Common.Category
+@{
+}
+<form asp-controller="Category" asp-action="@(Model != null ? "Edit" : "Add")" method="post">
+    <div class="form-group">
+        @if (@Model != null)
+        {
+            <input type="hidden" value="@Model.Id" class="form-control" name="id">
+        }
+        <label for="title">Başlıq</label>
+        <input type="text" value="@(Model == null ? "" : Model.Title)" class="form-control" id="title" name="title" placeholder="Başlıq">
+        <small id="emailHelp" class="form-text text-danger"></small>
+    </div>
+    <button type="submit" class="btn @(Model == null ? "btn-success" : "btn-primary") mt-2">
+        @(Model == null ? "Əlavə et" : "Dəyiş")
+    </button>
+</form>

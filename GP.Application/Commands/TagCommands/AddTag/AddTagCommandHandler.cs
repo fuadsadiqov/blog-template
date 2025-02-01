@@ -3,6 +3,7 @@ using GP.Infrastructure.Configurations.Commands;
 using GP.Infrastructure.Services;
 using GP.DataAccess.Repository;
 using GP.Core.Enums.Enitity;
+using GP.Core.Exceptions;
 using MediatR;
 using GP.Domain.Entities.Common;
 using GP.DataAccess.Repository.TagRepository;
@@ -29,23 +30,30 @@ namespace GP.Application.Commands.TagCommands.AddTag
         public async Task<AddTagResponse> Handle(AddTagCommand command, CancellationToken cancellationToken)
         {
             var name = command.Request.Name;
-
-            var id = Guid.NewGuid();
-            var tag = new Tag()
+            var isExist = await _tagRepository.GetFirstAsync(t => t.Name == name);
+            if (isExist == null)
             {
-                Id = id,
-                Name = name,
-                Status = RecordStatusEnum.Active,
-                DateCreated = DateTime.Now,
-            };
-            await _tagRepository.AddAsync(tag);
+                var id = Guid.NewGuid();
+                var tag = new Tag()
+                {
+                    Id = id,
+                    Name = name,
+                    Status = RecordStatusEnum.Active,
+                    DateCreated = DateTime.Now,
+                };
+                await _tagRepository.AddAsync(tag);
 
-            await _unitOfWork.CompleteAsync();
+                await _unitOfWork.CompleteAsync();
 
             return new AddTagResponse
             {
                 Id = id
             };
+            }
+            else
+            {
+                throw new RecordAlreadyExistException("Tag already exists");
+            }
         }
     }
 }

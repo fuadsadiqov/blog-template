@@ -17,4 +17,10 @@
     <ProjectReference Include="..\GP.Application\GP.Application.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <AdditionalFiles Include="Views\Category\Add.cshtml" />
+    <AdditionalFiles Include="Views\Category\Detail.cshtml" />
+    <AdditionalFiles Include="Views\Category\Index.cshtml" />
+  </ItemGroup>
+
 </Project>
