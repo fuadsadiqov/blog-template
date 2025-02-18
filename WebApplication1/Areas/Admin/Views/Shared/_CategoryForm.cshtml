@@ -1,7 +1,7 @@
 @model GP.Domain.Entities.Common.Category
 @{
 }
-<form asp-controller="Category" asp-action="@(Model != null ? "Edit" : "Add")" method="post">
+<form asp-controller="Category" asp-action="@(Model != null ? "Edit" : "Add")" class="w-100" method="post">
     <div class="form-group">
         @if (@Model != null)
         {

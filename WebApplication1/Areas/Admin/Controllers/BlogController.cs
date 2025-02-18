@@ -19,6 +19,7 @@ using WebApplication1.Models;
 
 namespace WebApplication1.Controllers
 {
+    [Area("Admin")]
     public class BlogController : BaseController
     {
         private readonly ILogger<BlogController> _logger;

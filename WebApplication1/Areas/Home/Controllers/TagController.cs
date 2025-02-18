@@ -19,6 +19,7 @@ using WebApplication1.Models;
 
 namespace WebApplication1.Controllers
 {
+    [Area("Home")]
     public class TagController : BaseController
     {
         private readonly ILogger<TagController> _logger;

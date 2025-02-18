@@ -5,10 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - Blog site</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <script src="https://cdn.tiny.cloud/1/iws4vv4lfwy8v0h5tl60oymzqvaibit3plreh9o9q4nv2e2j/tinymce/7/tinymce.min.js" referrerpolicy="origin"></script>
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/css/blog.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/WebApplication1.styles.css" asp-append-version="true" />
 </head>
 <body>
     <header>
@@ -22,10 +19,13 @@
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Blog" asp-action="Index">Bloqlar</a>
+                            <a class="nav-link text-dark" asp-area="Home" asp-controller="Blog" asp-action="Index">Bloqlar</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Category" asp-action="Index">Kateqoriyalar</a>
+                            <a class="nav-link text-dark" asp-area="Home" asp-controller="Category" asp-action="Index">Kateqoriyalar</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" href="/Admin">Admin</a>
                         </li>
                     </ul>
                 </div>
@@ -46,7 +46,6 @@
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
-    <script src="~/js/blog.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

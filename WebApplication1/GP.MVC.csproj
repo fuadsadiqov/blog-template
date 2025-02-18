@@ -11,6 +11,7 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="8.0.7" />
   </ItemGroup>
 
   <ItemGroup>
@@ -18,9 +19,42 @@
   </ItemGroup>
 
   <ItemGroup>
-    <AdditionalFiles Include="Views\Category\Add.cshtml" />
-    <AdditionalFiles Include="Views\Category\Detail.cshtml" />
-    <AdditionalFiles Include="Views\Category\Index.cshtml" />
+    <AdditionalFiles Include="Areas\Admin\Views\Category\Add.cshtml" />
+    <AdditionalFiles Include="Areas\Admin\Views\Category\Index.cshtml" />
+    <AdditionalFiles Include="Areas\Admin\Views\Shared\Error.cshtml" />
+    <AdditionalFiles Include="Areas\Admin\Views\Shared\_Layout.cshtml" />
+    <AdditionalFiles Include="Areas\Admin\Views\Shared\_ValidationScriptsPartial.cshtml" />
+    <AdditionalFiles Include="Areas\Home\Views\Home\Index.cshtml" />
+    <AdditionalFiles Include="Areas\Home\Views\Home\Privacy.cshtml" />
+    <AdditionalFiles Include="Areas\Home\Views\Shared\Error.cshtml" />
+    <AdditionalFiles Include="Areas\Home\Views\Shared\_Layout.cshtml" />
+    <AdditionalFiles Include="Areas\Home\Views\Shared\_ValidationScriptsPartial.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Areas\Admin\Data\" />
+    <Folder Include="Areas\Admin\Models\" />
+    <Folder Include="Areas\Home\Data\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <_ContentIncludedByDefault Remove="Views\Category\Add.cshtml" />
+    <_ContentIncludedByDefault Remove="Views\Category\Edit.cshtml" />
+    <_ContentIncludedByDefault Remove="Views\Category\Index.cshtml" />
+    <_ContentIncludedByDefault Remove="Views\Home\Index.cshtml" />
+    <_ContentIncludedByDefault Remove="Views\Home\Privacy.cshtml" />
+    <_ContentIncludedByDefault Remove="Views\Shared\Error.cshtml" />
+    <_ContentIncludedByDefault Remove="Views\Shared\_BlogForm.cshtml" />
+    <_ContentIncludedByDefault Remove="Views\Shared\_CategoryForm.cshtml" />
+    <_ContentIncludedByDefault Remove="Views\Shared\_Layout.cshtml" />
+    <_ContentIncludedByDefault Remove="Views\Shared\_ValidationScriptsPartial.cshtml" />
+    <_ContentIncludedByDefault Remove="Areas\Home\Views\Blog\Add.cshtml" />
+    <_ContentIncludedByDefault Remove="Areas\Home\Views\Blog\Detail.cshtml" />
+    <_ContentIncludedByDefault Remove="Areas\Home\Views\Blog\Edit.cshtml" />
+    <_ContentIncludedByDefault Remove="Areas\Home\Views\Blog\Index.cshtml" />
+    <_ContentIncludedByDefault Remove="Areas\Home\Views\Category\Add.cshtml" />
+    <_ContentIncludedByDefault Remove="Areas\Home\Views\Category\Edit.cshtml" />
+    <_ContentIncludedByDefault Remove="Areas\Home\Views\Category\Index.cshtml" />
   </ItemGroup>
 
 </Project>

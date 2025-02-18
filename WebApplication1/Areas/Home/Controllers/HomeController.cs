@@ -7,6 +7,7 @@ using WebApplication1.Models;
 
 namespace WebApplication1.Controllers
 {
+    [Area("Home")]
     public class HomeController : BaseController
     {
         private readonly ILogger<HomeController> _logger;

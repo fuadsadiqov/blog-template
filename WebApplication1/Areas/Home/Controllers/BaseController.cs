@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace GP.MVC.Controllers
 {
+    [Area("Home")]
     public class BaseController : Controller
     {
         private IMediator _mediator;

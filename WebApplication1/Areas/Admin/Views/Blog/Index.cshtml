@@ -1,8 +1,6 @@
-﻿
-@using GP.Application.BlogQueries
-@model IEnumerable<GP.Application.BlogQueries.BlogResponse>
+﻿@model IEnumerable<GP.Application.BlogQueries.BlogResponse>
 
-<div class="album py-5 bg-body-tertiary">
+<div class="album w-100 bg-body-tertiary">
     <div class="container">
         <div class="d-flex justify-content-between">
             <h4>Bloqlar</h4>
@@ -22,7 +20,7 @@
 
             <tr>
                 <td>@blog.Name</td>
-                <td>@blog.DateCreated</td>
+                <td>@blog.Date</td>
                 <td>
                     <a asp-controller="Blog" asp-action="Edit" asp-route-id="@blog.Id" class="btn btn-primary">Edit</a>
                     <a onclick="areYouSure()" asp-controller="Blog" asp-action="Delete" asp-route-id="@blog.Id" class="btn btn-danger">Delete</a>

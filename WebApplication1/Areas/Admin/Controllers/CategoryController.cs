@@ -17,6 +17,7 @@ using WebApplication1.Models;
 
 namespace WebApplication1.Controllers
 {
+    [Area("Admin")]
     public class CategoryController : BaseController
     {
         private readonly ILogger<CategoryController> _logger;

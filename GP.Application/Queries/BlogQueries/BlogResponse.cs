@@ -15,5 +15,6 @@ namespace  GP.Application.BlogQueries
         public string ViewCount{ get; set; }
         public ICollection<BlogTag> Tags{ get; set; }
         public DateTime DateCreated{ get; set; }
+        public string Date => DateCreated.ToString("MMMM dd, yyyy");
     }
 }
