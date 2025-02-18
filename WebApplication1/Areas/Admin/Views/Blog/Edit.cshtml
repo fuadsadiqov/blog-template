@@ -3,3 +3,67 @@
 <h5>Bloqu dəyiş</h5>
 
 @Html.Partial("_BlogForm", @Model)
+
+@section Scripts {
+    <script>
+        tinymce.init({
+            selector: 'textarea',
+            plugins: 'anchor autolink charmap codesample emoticons image link lists media searchreplace table visualblocks wordcount',
+            toolbar: 'undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | link image media table | align lineheight | numlist bullist indent outdent | emoticons charmap | removeformat',
+        });
+
+        $(document).ready(function () {
+            $(".fm_modal_open").click(function () {
+                console.log("OK")
+                var url, w, h, l, t, win;
+                url = $(this).data('url');
+                w = Math.floor(screen.width - 40);
+                h = Math.floor(screen.height - 100);
+                l = Math.floor((screen.width - w) / 4);
+                t = 5; //Math.floor((screen.height-h)/4);
+                win = window.open(url, 'ResponsiveFilemanager', "scrollbars=1,width=" + w + ",height=" + h + ",top=" + t + ",left=" + l);
+
+            });
+
+            $(function () {
+                var img_src;
+                // Executes a callback detecting changes with a frequency of 1 second
+                $(".img-select").observe_field(0.5, function () {
+                    var img_id = $(this).data('img');
+                    img_src = this.value;
+                    if (img_src === "") {
+                        img_src = "https://fraktal.az:8443/assets/images/default-img-01.jpg";
+                    }
+                    $('#img-' + img_id).attr('src', img_src).show();
+
+                });
+            });
+
+            (function ($) {
+                'use strict';
+                $.fn.observe_field = function (frequency, callback) {
+                    frequency = frequency * 1000; // translate to milliseconds
+                    return this.each(function () {
+                        var $this = $(this);
+                        var check = function () {
+                            if (true) {
+                                $this.map(callback); // invokes the callback on $this
+                            }
+                        };
+                        var reset = function () {
+                            if (ti) {
+                                clearInterval(ti);
+                                ti = setInterval(check, frequency);
+                            }
+                        };
+                        check();
+                        var ti = setInterval(check, frequency); // invoke check periodically
+
+                        // reset counter after user interaction
+                        $this.bind('keyup click mousemove', reset); // mousemove is for selects
+                    });
+                };
+            })(jQuery);
+        })
+    </script>
+}

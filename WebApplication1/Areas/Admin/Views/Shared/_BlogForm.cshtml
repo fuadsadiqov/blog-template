@@ -34,7 +34,17 @@
         </div>
         <div>
             <label for="coverImage">Şəkil</label>
-            <input type="text" value="@(blog == null ? "" : blog.CoverImage)" class="form-control" id="coverImage" name="coverImage" placeholder="Şəkil">
+            <input data-img="slider_items_translate_img_en"
+                   class="form-control input-length file-upload-info img-select"
+                   maxlength="200"
+                   name="coverImage"
+                   id="slider_items_translate_img_en"
+                   type="hidden" value="@(blog == null ? "" : blog.CoverImage)" placeholder="Şəkili daxil edin" />
+            <img class="fm_modal_open"
+                 style="border-radius: 2px; border: 1px solid #0b1751; width: 100%; max-height: 200px; object-fit: cover"
+                 id="img-slider_items_translate_img_en"
+                 data-url="/filemanager/dialog.php?type=1&amp;popup=1&amp;field_id=slider_items_translate_img_en&amp;sort_by=date"
+                 src="https://fraktal.az:8443/assets/images/default-img-01.jpg" alt="Şəkili daxil edin" />
         </div>
         <div>
             <label for="description">Məzmun</label>
@@ -64,11 +74,3 @@
         @(blog == null ? "Əlavə et" : "Dəyiş")
     </button>
 </form>
-
-<script>
-      tinymce.init({
-          selector: 'textarea',
-          plugins: 'anchor autolink charmap codesample emoticons image link lists media searchreplace table visualblocks wordcount',
-          toolbar: 'undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | link image media table | align lineheight | numlist bullist indent outdent | emoticons charmap | removeformat',
-      });
-</script>

@@ -19,6 +19,16 @@ using GP.Infrastructure.Middlewares;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.AddSession(session =>
+{
+    session.IdleTimeout = TimeSpan.FromMinutes(1);
+    session.Cookie.HttpOnly = true;
+});
+
+builder.Services.AddResponsiveFileManager(options =>
+{
+});
+
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
@@ -130,6 +140,8 @@ app.UseForwardedHeaders(new ForwardedHeadersOptions
 app.UseCors();
 app.UseHttpsRedirection();
 
+app.UseSession();
+
 var localizeOptions = ((IApplicationBuilder)app).ApplicationServices.GetRequiredService<IOptions<RequestLocalizationOptions>>();
 app.UseRequestLocalization(localizeOptions.Value);
 
@@ -141,7 +153,10 @@ app.ConfigureAutoWrapperMiddleware();
 app.ConfigureLoggingMiddleware();
 app.UseMiddleware<UserJwtValidatorsMiddleware>();
 
+app.UseResponsiveFileManager();
+
 app.UseHttpsRedirection();
+app.UseDefaultFiles();
 app.UseStaticFiles();
 
 app.UseRouting();
@@ -159,6 +174,5 @@ app.MapAreaControllerRoute(
     areaName: "Admin",
     pattern : "{area:exists}/{controller=Dashboard}/{action=Index}/{id?}"
 );
-
 
 app.Run();
