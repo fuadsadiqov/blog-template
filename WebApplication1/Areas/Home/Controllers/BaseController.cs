@@ -1,5 +1,8 @@
-﻿using MediatR;
+﻿using GP.Application.CategoryQueries.GetAllCategoriesQuery;
+using GP.DataAccess.Repository.CategoryRepository;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Filters;
 
 namespace GP.MVC.Controllers
 {

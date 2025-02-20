@@ -24,7 +24,12 @@
             <select class="form-control" name="categoryId" id="category">
                 @foreach (var category in categories)
                 {
-                    <option value="@category.Id">@category.Title</option>
+                    @if(blog != null && category.Id == @blog.CategoryId){
+                        <option selected value="@category.Id">@category.Title</option>
+                    }
+                    else{
+                        <option value="@category.Id">@category.Title</option>
+                    }
                 }
             </select>
         </div>

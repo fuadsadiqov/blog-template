@@ -9,9 +9,8 @@ namespace GP.Application.Mapping
         public BlogDetailMappingProfile()
         {
             CreateMap<Blog, BlogResponse>()
-                .ForMember(x=>x.Category, opt=>opt.MapFrom(x=>x.Category.Title));
-
-
+                .ForPath(x=>x.Category.Id, opt => opt.MapFrom(x=>x.Category.Id))
+                .ForPath(x=>x.Category.Title, opt=>opt.MapFrom(x=>x.Category.Title));
         }
     }
 }

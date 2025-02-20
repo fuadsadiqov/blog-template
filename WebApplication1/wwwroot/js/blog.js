@@ -86,7 +86,7 @@ document.addEventListener("DOMContentLoaded", function () {
         if (!newTagText) return;
 
         try {
-            const response = await fetch("/Tag/Add", {
+            const response = await fetch("/Home/Tag/Add", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ name: newTagText }),
