@@ -26,6 +26,7 @@
     <AdditionalFiles Include="Areas\Admin\Views\Shared\Error.cshtml" />
     <AdditionalFiles Include="Areas\Admin\Views\Shared\_Layout.cshtml" />
     <AdditionalFiles Include="Areas\Admin\Views\Shared\_ValidationScriptsPartial.cshtml" />
+    <AdditionalFiles Include="Areas\Home\Views\Home\Detail.cshtml" />
     <AdditionalFiles Include="Areas\Home\Views\Home\Index.cshtml" />
     <AdditionalFiles Include="Areas\Home\Views\Home\Privacy.cshtml" />
     <AdditionalFiles Include="Areas\Home\Views\Shared\Error.cshtml" />
@@ -37,6 +38,7 @@
     <Folder Include="Areas\Admin\Data\" />
     <Folder Include="Areas\Admin\Models\" />
     <Folder Include="Areas\Home\Data\" />
+    <Folder Include="wwwroot\public\" />
   </ItemGroup>
 
   <ItemGroup>
@@ -50,10 +52,6 @@
     <_ContentIncludedByDefault Remove="Views\Shared\_CategoryForm.cshtml" />
     <_ContentIncludedByDefault Remove="Views\Shared\_Layout.cshtml" />
     <_ContentIncludedByDefault Remove="Views\Shared\_ValidationScriptsPartial.cshtml" />
-    <_ContentIncludedByDefault Remove="Areas\Home\Views\Blog\Add.cshtml" />
-    <_ContentIncludedByDefault Remove="Areas\Home\Views\Blog\Detail.cshtml" />
-    <_ContentIncludedByDefault Remove="Areas\Home\Views\Blog\Edit.cshtml" />
-    <_ContentIncludedByDefault Remove="Areas\Home\Views\Blog\Index.cshtml" />
     <_ContentIncludedByDefault Remove="Areas\Home\Views\Category\Add.cshtml" />
     <_ContentIncludedByDefault Remove="Areas\Home\Views\Category\Edit.cshtml" />
     <_ContentIncludedByDefault Remove="Areas\Home\Views\Category\Index.cshtml" />

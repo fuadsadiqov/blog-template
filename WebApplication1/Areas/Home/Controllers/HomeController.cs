@@ -1,12 +1,10 @@
 using GP.Application.BlogQueries.GetAllBlogsQuery;
-using GP.Domain.Entities.Common;
-using GP.MVC.Controllers;
-using MediatR;
+using GP.Application.BlogQueries.GetBlogQuery;
+using GP.MVC.Areas.Home.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
-using WebApplication1.Models;
 
-namespace WebApplication1.Controllers
+namespace GP.MVC.Areas.Home.Controllers
 {
     [Area("Home")]
     public class HomeController : BaseController
@@ -25,6 +23,14 @@ namespace WebApplication1.Controllers
                                                    .ToDictionary(g => g.Key, g => g.ToList());
 
             return View(groupedBlogs);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Detail( Guid id)
+        {
+            GetBlogRequest request = new GetBlogRequest() { Id = id };
+            var blog = await Mediator.Send(new GetBlogQuery(request));
+            return View(blog.BlogResponses);
         }
 
         public IActionResult Privacy()

@@ -4,7 +4,6 @@ using GP.Application.BlogQueries.GetAllBlogsQuery;
 using GP.Core.Models;
 using GP.DataAccess.Repository.BlogRepository;
 using GP.Domain.Entities.Common;
-using GP.MVC.Controllers;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
@@ -15,9 +14,8 @@ using GP.Application.Commands.CategoryCommands.UpdateCategoryCommands;
 using GP.Application.Commands.TagCommands.AddTag;
 using GP.DataAccess.Repository.CategoryRepository;
 using GP.DataAccess.Repository.TagRepository;
-using WebApplication1.Models;
 
-namespace WebApplication1.Controllers
+namespace GP.MVC.Areas.Home.Controllers
 {
     [Area("Home")]
     public class TagController : BaseController

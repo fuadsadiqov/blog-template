@@ -13,12 +13,12 @@
                 {
                     @foreach(var blog in group.Value)
                     {
-                        <div class="carousel-item @(first ? "active" : "")">
+                        <a asp-action="Detail" asp-route-id="@blog.Id" class="carousel-item @(first ? "active" : "")">
                             <img src="@blog.CoverImage" style="height: 360px; object-fit: cover; object-position: center;" class="d-block w-100">
                             <div class="carousel-caption text-left d-none d-md-block">
                                 <h5 class="text-white">@blog.Name</h5>
                             </div>
-                        </div>
+                        </a>
                         first = false;
                     }
                 }
@@ -49,15 +49,27 @@
 <div class="pt-3 d-flex flex-column gap-4">
     @foreach (var group in Model)
     {
-        <h6 class="fw-semibold">@group.Key</h6>
-        <div class="d-flex gap-3">
-            @foreach (var blog in group.Value)
-            {
-            <div style="width: 200px">
-                    <img width="200" height="100" style="object-fit: cover;" src="@blog.CoverImage" alt="Alternate Text" />
-                <div style="font-size: 12px; font-weight: 500;" class="mt-1">@blog.Name</div>
+        <div class="category-blog-container">
+            <h6 class="fw-semibold text-uppercase">@group.Key</h6>
+            <div class="d-flex gap-4">
+                @foreach (var blog in group.Value)
+                {
+                    <div style="width: 250px">
+                        <img width="250" height="150" style="object-fit: cover;" src="@blog.CoverImage" alt="Alternate Text" />
+                        <div style="font-size: 13px; font-weight: 500;" class="mt-1">@blog.Name</div>
+                        <div class="d-flex gap-3" align-items-center">
+                            <div>
+                                <img src="/assets/icons/clock.svg" width="13" alt="Alternate Text" />
+                                <span style="font-size: 11px;">@blog.Date</span>
+                            </div>
+                            <div>
+                                <img src="/assets/icons/eye.svg" width="13" alt="Alternate Text" />
+                                <span style="font-size: 11px;">@blog.ViewCount</span>
+                            </div>
+                        </div>
+                    </div>
+                }
             </div>
-            }
         </div>
     }
 </div>
