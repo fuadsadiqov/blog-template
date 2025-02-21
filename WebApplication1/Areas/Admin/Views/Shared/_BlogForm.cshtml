@@ -32,19 +32,20 @@
             <label for="name">Başlıq</label>
             <input type="text" value="@(blog == null ? "" : blog.Name)" class="form-control" id="name" name="name" placeholder="Başlıq">
         </div>
-        <div>
+        <div class="pt-3 flex flex-col">
             <label for="coverImage">Şəkil</label>
             <input data-img="slider_items_translate_img_en"
                    class="form-control input-length file-upload-info img-select"
                    maxlength="200"
                    name="coverImage"
                    id="slider_items_translate_img_en"
-                   type="hidden" value="@(blog == null ? "" : blog.CoverImage)" placeholder="Şəkili daxil edin" />
+                   type="hidden" value="@(blog?.CoverImage ?? "")" placeholder="Şəkili daxil edin" />
             <img class="fm_modal_open"
-                 style="border-radius: 2px; border: 1px solid #0b1751; width: 100%; max-height: 200px; object-fit: cover"
+                 style="border-radius: 2px; border: 1px solid #0b1751; width: 30%; max-height: 200px; object-fit: cover"
                  id="img-slider_items_translate_img_en"
                  data-url="/filemanager/dialog.php?type=1&amp;popup=1&amp;field_id=slider_items_translate_img_en&amp;sort_by=date"
-                 src="https://fraktal.az:8443/assets/images/default-img-01.jpg" alt="Şəkili daxil edin" />
+                 data-initial-src="@(blog?.CoverImage ?? "https://fraktal.az:8443/assets/images/default-img-01.jpg")"
+                 src="@(blog?.CoverImage ?? "https://fraktal.az:8443/assets/images/default-img-01.jpg")" alt="Şəkili daxil edin" />
         </div>
         <div>
             <label for="description">Məzmun</label>

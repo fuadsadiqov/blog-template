@@ -5,6 +5,7 @@
 @Html.Partial("_BlogForm", @Model)
 
 @section Scripts {
+    <script src="~/js/blog.js"></script>
     <script>
         tinymce.init({
             selector: 'textarea',
@@ -14,7 +15,6 @@
 
         $(document).ready(function () {
             $(".fm_modal_open").click(function () {
-                console.log("OK")
                 var url, w, h, l, t, win;
                 url = $(this).data('url');
                 w = Math.floor(screen.width - 40);
@@ -26,16 +26,16 @@
             });
 
             $(function () {
-                var img_src;
-                // Executes a callback detecting changes with a frequency of 1 second
                 $(".img-select").observe_field(0.5, function () {
                     var img_id = $(this).data('img');
-                    img_src = this.value;
-                    if (img_src === "") {
-                        img_src = "https://fraktal.az:8443/assets/images/default-img-01.jpg";
-                    }
-                    $('#img-' + img_id).attr('src', img_src).show();
+                    var img_src = this.value;
 
+                    if (img_src === "") {
+                        var initialImg = $("#img-" + img_id).attr('data-initial-src');
+                        img_src = initialImg ? initialImg : "https://fraktal.az:8443/assets/images/default-img-01.jpg";
+                    }
+
+                    $('#img-' + img_id).attr('src', img_src).show();
                 });
             });
 
