@@ -1,9 +1,9 @@
 using GP.Application.BlogQueries.GetAllBlogsQuery;
-using GP.MVC.Controllers;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
-using WebApplication1.Models;
+using GP.MVC.Areas.Home.Controllers;
+using GP.MVC.Areas.Home.Models;
 
 namespace WebApplication1.Controllers
 {

@@ -1,3 +1,11 @@
 ﻿* {
-    color: #5b656e;
+    color: #222;
+}
+
+h1.title{
+    font-size: 30px;
+}
+
+.image-banner{
+    background-color: #34495e;
 }

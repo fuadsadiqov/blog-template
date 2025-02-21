@@ -3,6 +3,7 @@ using GP.Application.BlogQueries.GetBlogQuery;
 using GP.MVC.Areas.Home.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
+using GP.Application.Commands.BlogCommands.UpdateBlogViewCount;
 
 namespace GP.MVC.Areas.Home.Controllers
 {
@@ -28,9 +29,16 @@ namespace GP.MVC.Areas.Home.Controllers
         [HttpGet]
         public async Task<IActionResult> Detail( Guid id)
         {
+            UpdateBlogViewCountRequest updateRequest = new UpdateBlogViewCountRequest{ Id = id };
+            await Mediator.Send(new UpdateBlogViewCountCommand(updateRequest));
+            
             GetBlogRequest request = new GetBlogRequest() { Id = id };
             var blog = await Mediator.Send(new GetBlogQuery(request));
-            return View(blog.BlogResponses);
+            var lastBlogs = await Mediator.Send(new GetAllBlogsQuery(new GetAllBlogsRequest()));
+
+            BlogDetailModel model = new BlogDetailModel(){ lastBlogs = lastBlogs.BlogResponses, blog = blog.BlogResponses };
+            
+            return View(model);
         }
 
         public IActionResult Privacy()

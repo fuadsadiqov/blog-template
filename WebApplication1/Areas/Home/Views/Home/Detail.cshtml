@@ -1,15 +1,52 @@
 ﻿@using GP.Application.BlogQueries
-@model BlogResponse
-
-@section Styles{
-    <link rel="stylesheet" href="~/css/detail.css" asp-append-version="true" />
+@using Microsoft.AspNetCore.Html
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@model BlogDetailModel
+@{
+    var blog = Model.blog;
+    var lastBlogs = Model.lastBlogs;
 }
-
 @if (Model != null)
 {
     <div>
-        <h1 class="font-bold title">
-            @Model.Name
-        </h1>
+        <div class="d-flex gap-3 col-12">
+            <div class="ratio-16x9 col-md-8 col-12">
+                <h1 class="font-bold lastNewsItem title">
+                    @blog.Name
+                </h1>
+                <img class="col-8 ratio" style="object-fit: cover" src="@blog.CoverImage" alt="@blog.Name">
+                <div class="d-flex image-banner px-2 py-1 justify-content-between">
+                    <div class="d-flex gap-3">
+                        <div>
+                            <img src="/assets/icons/clock-white.svg" width="13" alt="Alternate Text"/>
+                            <span class="text-white" style="font-size: 11px;">@blog.Date</span>
+                        </div>
+                        <div>
+                            <img src="/assets/icons/price-white.svg" width="13" alt="Alternate Text"/>
+                            <span class="text-white" style="font-size: 11px;">@blog.Category.Title</span>
+                        </div>
+                    </div>
+                    <div>
+                        <img src="/assets/icons/eye-white.svg" width="13" alt="Alternate Text"/>
+                        <span class="text-white" style="font-size: 11px;">@blog.ViewCount</span>
+                    </div>
+                </div>
+                <div class="pt-4">@(new HtmlString(@blog.Description))</div>
+            </div>
+            <div class="col-md-4 col-12 last-news">
+                <h5>Son xəbərlər</h5>
+                <div class="d-flex flex-column news-container">
+                    @foreach (var lastBlog in lastBlogs)
+                    {
+                        <a asp-action="Detail" asp-route-id="@lastBlog.Id" class="p-2 item lastNewsItem">@lastBlog.Name</a>
+                    }
+                </div>
+            </div>
+        </div>
     </div>
+}
+
+
+@section Scripts{
+    <script src="~/js/home.js"></script>
 }

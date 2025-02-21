@@ -14,6 +14,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using GP.MVC.Areas.Home.Controllers;
 using GP.MVC.Areas.Home.Models;
+using BlogDetailModel = GP.Core.Models.BlogDetailModel;
 
 namespace GP.MVC.Areas.Admin.Controllers
 {
