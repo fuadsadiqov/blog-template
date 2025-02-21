@@ -1,4 +1,4 @@
-namespace WebApplication1.Models
+namespace GP.MVC.Areas.Home.Models
 {
     public class ErrorViewModel
     {

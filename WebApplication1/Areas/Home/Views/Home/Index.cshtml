@@ -1,1 +1,79 @@
-﻿<h1>Home page</h1>
+﻿@using Microsoft.AspNetCore.Html
+@model IDictionary<string, List<GP.Application.BlogQueries.BlogResponse>>
+@{
+    bool first = true;
+}
+
+<div class="d-flex gap-3 col-12">
+    <div class="col-8">
+        <h5>Manşet</h5>
+        <div id="carouselExampleIndicators" class="carousel slide " data-bs-interval="3000" data-bs-ride="carousel">
+            <div class="carousel-inner">
+                @foreach (var group in Model)
+                {
+                    @foreach(var blog in group.Value)
+                    {
+                        <a asp-action="Detail" asp-route-id="@blog.Id" class="carousel-item @(first ? "active" : "")">
+                            <img src="@blog.CoverImage" style="height: 360px; object-fit: cover; object-position: center;" class="d-block w-100">
+                            <div class="carousel-caption text-left d-none d-md-block">
+                                <h5 class="text-white">@blog.Name</h5>
+                            </div>
+                        </a>
+                        first = false;
+                    }
+                }
+            </div>
+
+            <button class="carousel-control carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            </button>
+            <button class="carousel-control carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            </button>
+        </div>
+    </div>
+    <div class="col-4 last-news">
+        <h5>Son xəbərlər</h5>
+        <div class="d-flex flex-column news-container">
+            @foreach (var group in Model)
+            {
+                @foreach(var blog in group.Value)
+                {
+                    <div class="p-2 item lastNewsItem">@blog.Name</div>
+                }
+            }
+        </div>
+    </div>
+</div>
+
+<div class="pt-3 d-flex flex-column gap-4">
+    @foreach (var group in Model)
+    {
+        <div class="category-blog-container">
+            <h6 class="fw-semibold text-uppercase">@group.Key</h6>
+            <div class="d-flex gap-4">
+                @foreach (var blog in group.Value)
+                {
+                    <div style="width: 250px">
+                        <img width="250" height="150" style="object-fit: cover;" src="@blog.CoverImage" alt="Alternate Text" />
+                        <div style="font-size: 13px; font-weight: 500;" class="mt-1">@blog.Name</div>
+                        <div class="d-flex gap-3" align-items-center">
+                            <div>
+                                <img src="/assets/icons/clock.svg" width="13" alt="Alternate Text" />
+                                <span style="font-size: 11px;">@blog.Date</span>
+                            </div>
+                            <div>
+                                <img src="/assets/icons/eye.svg" width="13" alt="Alternate Text" />
+                                <span style="font-size: 11px;">@blog.ViewCount</span>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    }
+</div>
+
+@section Scripts{
+    <script src="~/js/home.js"></script>
+}

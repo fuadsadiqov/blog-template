@@ -1,7 +1,10 @@
-﻿using MediatR;
+﻿using GP.Application.CategoryQueries.GetAllCategoriesQuery;
+using GP.DataAccess.Repository.CategoryRepository;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Filters;
 
-namespace GP.MVC.Controllers
+namespace GP.MVC.Areas.Home.Controllers
 {
     [Area("Home")]
     public class BaseController : Controller
