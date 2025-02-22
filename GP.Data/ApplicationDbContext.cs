@@ -59,6 +59,7 @@ namespace GP.Data
         public DbSet<Blog> Blogs { get; set; }
         public DbSet<Tag> Tags { get; set; }
         public DbSet<BlogTag> BlogTags { get; set; }
+        public DbSet<Review> Reviews { get; set; }
         #endregion
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options,
             IHttpContextAccessor httpContextAccessor)
@@ -119,6 +120,7 @@ namespace GP.Data
             modelBuilder.Entity<Tag>().ToTable("Tags", SchemaNames.CommonSchemaName);
             modelBuilder.Entity<BlogTag>().ToTable("BlogTags", SchemaNames.CommonSchemaName);
             modelBuilder.Entity<Category>().ToTable("Categories", SchemaNames.CommonSchemaName);
+            modelBuilder.Entity<Review>().ToTable("Reviews", SchemaNames.CommonSchemaName);
 
             modelBuilder.SetStatusQueryFilter();
         }

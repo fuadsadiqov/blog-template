@@ -6,6 +6,7 @@ using GP.DataAccess.Repository.BlogTagRepository;
 using GP.DataAccess.Repository.BlogRepository;
 using GP.Domain.Entities.Common;
 using System.Linq.Expressions;
+using GP.Application.Queries.BlogQueries;
 using GP.DataAccess.Repository;
 
 namespace GP.Application.BlogQueries.GetBlogQuery
@@ -29,14 +30,14 @@ namespace GP.Application.BlogQueries.GetBlogQuery
 
         public async Task<GetBlogResponse> Handle(GetBlogQuery query, CancellationToken cancellationToken)
         {
-            List<string> includes = new List<string>(){ "Category", "Tags.Tag"};
+            List<string> includes = new List<string>(){ "Category", "Tags.Tag", "Reviews"};
             var id = query.Request.Id;
             var blog = await _repository.GetFirstAsync(b => b.Id == id, includes.ToArray());
-            var result = _mapper.Map<Blog, BlogResponse>(blog);
-
+            var result = _mapper.Map<Blog, BlogDetailResponse>(blog);
+            
             return new GetBlogResponse()
             {
-                BlogResponses = result,
+                BlogResponse = result,
             };
         }
     }

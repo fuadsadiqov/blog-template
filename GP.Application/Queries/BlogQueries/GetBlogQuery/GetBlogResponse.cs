@@ -1,10 +1,9 @@
-﻿using GP.Application.BlogQueries;
+﻿using GP.Application.Queries.BlogQueries;
 
 namespace GP.Application.BlogQueries.GetBlogQuery
 {
     public class GetBlogResponse
     {
-        public BlogResponse BlogResponses { get; set; }
-
+        public BlogDetailResponse BlogResponse { get; set; }
     }
 }

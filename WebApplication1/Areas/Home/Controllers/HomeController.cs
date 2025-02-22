@@ -22,7 +22,7 @@ namespace GP.MVC.Areas.Home.Controllers
             var blogs = await Mediator.Send(new GetAllBlogsQuery(new GetAllBlogsRequest()));
             var groupedBlogs = blogs.BlogResponses.GroupBy(b => b.Category.Title)
                                                    .ToDictionary(g => g.Key, g => g.ToList());
-
+            
             return View(groupedBlogs);
         }
 
@@ -32,11 +32,11 @@ namespace GP.MVC.Areas.Home.Controllers
             UpdateBlogViewCountRequest updateRequest = new UpdateBlogViewCountRequest{ Id = id };
             await Mediator.Send(new UpdateBlogViewCountCommand(updateRequest));
             
-            GetBlogRequest request = new GetBlogRequest() { Id = id };
+            GetBlogRequest request = new GetBlogRequest{ Id = id };
             var blog = await Mediator.Send(new GetBlogQuery(request));
             var lastBlogs = await Mediator.Send(new GetAllBlogsQuery(new GetAllBlogsRequest()));
 
-            BlogDetailModel model = new BlogDetailModel(){ lastBlogs = lastBlogs.BlogResponses, blog = blog.BlogResponses };
+            BlogDetailViewModel model = new BlogDetailViewModel{ lastBlogs = lastBlogs.BlogResponses, blog = blog.BlogResponse };
             
             return View(model);
         }

@@ -1,7 +1,7 @@
 ﻿@using GP.Application.BlogQueries
 @using Microsoft.AspNetCore.Html
 @using Microsoft.AspNetCore.Mvc.TagHelpers
-@model BlogDetailModel
+@model BlogDetailViewModel
 @{
     var blog = Model.blog;
     var lastBlogs = Model.lastBlogs;
@@ -32,6 +32,12 @@
                     </div>
                 </div>
                 <div class="pt-4">@(new HtmlString(@blog.Description))</div>
+                @foreach (var review in blog.Reviews)
+                {
+                    <div>
+                        @review.Message
+                    </div>
+                }
             </div>
             <div class="col-md-4 col-12 last-news">
                 <h5>Son xəbərlər</h5>

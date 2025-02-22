@@ -21,5 +21,6 @@ namespace GP.Domain.Entities.Common
         public DateTime? DateDeleted { get; set; }
         public Category Category { get; set; }
         public ICollection<BlogTag> Tags { get; set; } = new Collection<BlogTag>();
+        public ICollection<Review> Reviews { get; set; } = new Collection<Review>();
     }
 }

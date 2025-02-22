@@ -25,7 +25,7 @@ namespace GP.Application.BlogQueries.GetAllBlogsQuery
 
         public async Task<GetAllBlogsResponse> Handle(GetAllBlogsQuery query, CancellationToken cancellationToken)
         {
-            List<string> includes = new List<string>(){ "Category", "Tags.Tag"};
+            List<string> includes = new List<string>(){ "Category", "Tags.Tag" };
             var blogs = await _repository.GetAll(includes.ToArray()).ToListAsync(cancellationToken);
 
             var result = _mapper.Map<List<Blog>, List<BlogResponse>>(blogs);

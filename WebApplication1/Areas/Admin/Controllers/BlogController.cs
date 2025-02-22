@@ -1,6 +1,5 @@
 using AutoMapper;
 using GP.Application.BlogQueries.GetAllBlogsQuery;
-using GP.Core.Models;
 using GP.DataAccess.Repository.BlogRepository;
 using GP.Domain.Entities.Common;
 using Microsoft.AspNetCore.Mvc;
@@ -8,13 +7,13 @@ using System.Diagnostics;
 using GP.Application.Commands.BlogCommands.AddBlog;
 using GP.Application.Commands.BlogCommands.DeleteBlog;
 using GP.Application.Commands.BlogCommands.UpdateBlog;
+using GP.Application.Queries.BlogQueries;
 using GP.DataAccess.Repository.CategoryRepository;
 using GP.DataAccess.Repository.TagRepository;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using GP.MVC.Areas.Home.Controllers;
 using GP.MVC.Areas.Home.Models;
-using BlogDetailModel = GP.Core.Models.BlogDetailModel;
 
 namespace GP.MVC.Areas.Admin.Controllers
 {
@@ -49,7 +48,7 @@ namespace GP.MVC.Areas.Admin.Controllers
             {
                 return RedirectToAction(nameof(Index));
             }
-            var result = _mapper.Map<Blog, BlogDetailModel>(blog);
+            var result = _mapper.Map<Blog, BlogDetailResponse>(blog);
 
             return View(result);
         }

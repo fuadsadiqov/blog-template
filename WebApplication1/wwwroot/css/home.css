@@ -15,7 +15,7 @@
     z-index: 300;
 }
 
-.last-news{
+.last-news .news-container{
     height: 400px;
     overflow-y: auto;
 }
@@ -34,7 +34,7 @@
 }
 
 .last-word {
-    color: #ff7709;
+    color: var(--primary-color);
     font-weight: 700;
 }
 

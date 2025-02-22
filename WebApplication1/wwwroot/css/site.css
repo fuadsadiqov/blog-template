@@ -1,3 +1,7 @@
+:root{
+  --primary-color: #308d46;
+}
+
 html {
   font-size: 14px;
 }
@@ -8,7 +12,7 @@ a{
 }
 
 .text-primary {
-    color: #ff7709 !important;
+    color: var(--primary-color) !important;
 }
 
 @media (min-width: 768px) {

@@ -6,6 +6,7 @@ using GP.Core.Enums.Enitity;
 using Microsoft.AspNetCore.Identity;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using GP.Domain.Entities.Common;
 
 namespace GP.Domain.Entities.Identity
 {
@@ -70,5 +71,8 @@ namespace GP.Domain.Entities.Identity
         [ForeignKey("ModifiedBy")]
         public string? ModifiedById { get; set; }
         public bool CanAccessOutOfDomain { get; set; } = false;
+        
+        [InverseProperty("User")] 
+        public ICollection<Review> Reviews { get; set; }
     }
 }
