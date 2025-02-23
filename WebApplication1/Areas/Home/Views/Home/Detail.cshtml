@@ -32,12 +32,24 @@
                     </div>
                 </div>
                 <div class="pt-4">@(new HtmlString(@blog.Description))</div>
-                @foreach (var review in blog.Reviews)
-                {
-                    <div>
-                        @review.Message
-                    </div>
-                }
+                <div class="pt-5">
+                    <a asp-controller="Account" asp-action="GoogleLogin">Login with Google</a>
+                    <h4>Rəylər (@blog.Reviews.Count)</h4>
+                    <form method="post">
+                        <div class="d-flex">
+                            <input name="message" type="text" class="form-control" placeholder="Rəy əlavə edin">
+                            <button class="btn bg-primary text-white text-nowrap">Əlavə et</button>
+                        </div>
+                    </form>
+                    @foreach (var review in blog.Reviews)
+                    {
+                        <div>
+                            <div>
+                                @review.Message
+                            </div>
+                        </div>
+                    }
+                </div>
             </div>
             <div class="col-md-4 col-12 last-news">
                 <h5>Son xəbərlər</h5>

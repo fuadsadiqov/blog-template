@@ -16,6 +16,8 @@ using GP.Logging;
 using GP.Data;
 using GP.DataAccess.Initialize;
 using GP.Infrastructure.Middlewares;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication.Google;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -24,6 +26,21 @@ builder.Services.AddSession(session =>
     session.IdleTimeout = TimeSpan.FromMinutes(1);
     session.Cookie.HttpOnly = true;
 });
+
+builder.Services.AddAuthentication(options =>
+{
+    options.DefaultAuthenticateScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+    options.DefaultChallengeScheme = GoogleDefaults.AuthenticationScheme;
+    options.DefaultSignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+})
+.AddCookie()
+.AddGoogle(googleOptions =>
+{
+    googleOptions.ClientId = "1023033195510-t3f86pfrb040p631kn2okhpukm50dctv.apps.googleusercontent.com";
+    googleOptions.ClientSecret = "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";
+    googleOptions.CallbackPath = "/signin-google";
+});
+
 
 builder.Services.AddResponsiveFileManager(options =>
 {
