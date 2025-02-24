@@ -57,6 +57,7 @@
     <_ContentIncludedByDefault Remove="Areas\Home\Views\Category\Add.cshtml" />
     <_ContentIncludedByDefault Remove="Areas\Home\Views\Category\Edit.cshtml" />
     <_ContentIncludedByDefault Remove="Areas\Home\Views\Category\Index.cshtml" />
+    <_ContentIncludedByDefault Remove="Areas\Home\Views\Account\Index.cshtml" />
   </ItemGroup>
 
 </Project>

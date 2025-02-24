@@ -41,7 +41,6 @@ builder.Services.AddAuthentication(options =>
     googleOptions.CallbackPath = "/signin-google";
 });
 
-
 builder.Services.AddResponsiveFileManager(options =>
 {
 });
