@@ -18,6 +18,7 @@ using GP.DataAccess.Initialize;
 using GP.Infrastructure.Middlewares;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.Google;
+using System.Security.Claims;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -36,9 +37,21 @@ builder.Services.AddAuthentication(options =>
 .AddCookie()
 .AddGoogle(googleOptions =>
 {
+    //googleOptions.ClientId = builder.Configuration["Authentication:Google:ClientId"];
     googleOptions.ClientId = "1023033195510-t3f86pfrb040p631kn2okhpukm50dctv.apps.googleusercontent.com";
+    //googleOptions.ClientSecret = builder.Configuration["Authentication:Google:ClientId"];
     googleOptions.ClientSecret = "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";
     googleOptions.CallbackPath = "/signin-google";
+    googleOptions.Events.OnCreatingTicket = ctx =>
+    {
+        var identity = (ClaimsIdentity)ctx.Principal.Identity;
+        var email = ctx.User.GetProperty("email").GetString();
+        var name = ctx.User.GetProperty("name").GetString();
+        identity.AddClaim(new Claim(ClaimTypes.Email, email));
+        identity.AddClaim(new Claim(ClaimTypes.Name, name));
+        return Task.CompletedTask;
+    };
+
 });
 
 builder.Services.AddResponsiveFileManager(options =>

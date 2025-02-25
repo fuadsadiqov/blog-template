@@ -8,6 +8,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Remove="Areas\Home\Views\Home\Login.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Google.Apis.Auth" Version="1.69.0" />
     <PackageReference Include="Google.Apis.Auth.AspNetCore3" Version="1.69.0" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.Google" Version="8.0.0" />
@@ -29,6 +33,7 @@
     <AdditionalFiles Include="Areas\Admin\Views\Shared\Error.cshtml" />
     <AdditionalFiles Include="Areas\Admin\Views\Shared\_Layout.cshtml" />
     <AdditionalFiles Include="Areas\Admin\Views\Shared\_ValidationScriptsPartial.cshtml" />
+    <AdditionalFiles Include="Areas\Home\Views\Home\Login.cshtml" />
     <AdditionalFiles Include="Areas\Home\Views\Home\Detail.cshtml" />
     <AdditionalFiles Include="Areas\Home\Views\Home\Index.cshtml" />
     <AdditionalFiles Include="Areas\Home\Views\Home\Privacy.cshtml" />

@@ -2,6 +2,8 @@
   "AuthSettings": {
     "LockoutExpiry": 60,
     "MaxFailedAccessAttempts": 10,
-    "OtpExpiry": 5
+    "OtpExpiry": 5,
+    "GoogleClientId": "1023033195510-t3f86pfrb040p631kn2okhpukm50dctv.apps.googleusercontent.com",
+    "GoogleClientSecret": "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"
   }
 }
