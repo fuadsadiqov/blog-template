@@ -1,0 +1,23 @@
+.login-page {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #f8f9fa;
+}
+.login-container {
+    max-width: 600px;
+    padding: 2rem;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.google-btn{
+    border: 1px solid #ccc;
+}
+
+.google-btn:hover{
+    border: 1px solid #ccc;
+    background-color: #efefef;
+}

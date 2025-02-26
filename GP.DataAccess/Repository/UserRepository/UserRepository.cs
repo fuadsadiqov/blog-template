@@ -111,6 +111,10 @@ namespace GP.DataAccess.Repository.UserRepository
         {
             return _userManager.CreateAsync(user, password);
         }
+        public Task<IdentityResult> CreateWithoutPasswordAsync(User user)
+        {
+            return _userManager.CreateAsync(user);
+        }
         public Task<IdentityResult> UpdateAsync(User user)
         {
             return _userManager.UpdateAsync(user);

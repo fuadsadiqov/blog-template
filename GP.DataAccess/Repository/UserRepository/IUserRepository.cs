@@ -49,7 +49,7 @@ namespace GP.DataAccess.Repository.UserRepository
         Task<bool> IsExistAsync(Expression<Func<User, bool>> predicate);
 
         Task<IdentityResult> CreateAsync(User user, string password);
-
+        Task<IdentityResult> CreateWithoutPasswordAsync(User user);
 
         Task<IdentityResult> UpdateAsync(User user);
 

@@ -1,9 +1,9 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
-namespace GP.MVC.Areas.Home.Controllers
+namespace GP.MVC.Areas.Admin.Controllers
 {
-    [Area("Home")]
+    [Area("Admin")]
     public class BaseController : Controller
     {
         private IMediator _mediator;

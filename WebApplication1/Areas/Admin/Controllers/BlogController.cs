@@ -10,10 +10,9 @@ using GP.Application.Commands.BlogCommands.UpdateBlog;
 using GP.Application.Queries.BlogQueries;
 using GP.DataAccess.Repository.CategoryRepository;
 using GP.DataAccess.Repository.TagRepository;
+using GP.MVC.Areas.Admin.Models;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using GP.MVC.Areas.Home.Controllers;
-using GP.MVC.Areas.Home.Models;
 
 namespace GP.MVC.Areas.Admin.Controllers
 {

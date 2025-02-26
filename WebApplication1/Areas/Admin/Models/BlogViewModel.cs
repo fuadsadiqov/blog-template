@@ -1,7 +1,7 @@
 using GP.Domain.Entities.Common;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
-namespace GP.MVC.Areas.Home.Models;
+namespace GP.MVC.Areas.Admin.Models;
 
 public class BlogViewModel
 {

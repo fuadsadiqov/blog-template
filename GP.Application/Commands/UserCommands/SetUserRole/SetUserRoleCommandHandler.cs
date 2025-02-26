@@ -24,7 +24,7 @@ namespace GP.Application.Commands.UserCommands.SetUserRole
 
         public async Task<SetUserRoleResponse> Handle(SetUserRoleCommand command, CancellationToken cancellationToken)
         {
-            var userId = _authService.GetAuthorizedUserId();
+            var userId = command.Request.UserId;
             var isAdmin = await _authService.IsAdminAsync();
 
             if (!isAdmin)

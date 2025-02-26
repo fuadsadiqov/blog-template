@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using GP.Application.Commands.UserCommands.CreateUser;
+using GP.Application.Commands.UserCommands.CreateUserWithGoogle;
 using GP.Application.Commands.UserCommands.UpdateUser;
 using GP.Application.Queries.UserQueries;
 using GP.Domain.Entities.Identity;
@@ -27,7 +28,12 @@ namespace AIH.ERP.Analytic.Application.Mapping
             CreateMap<CreateUserRequest, User>()
                 .ForMember(c => c.Roles, opt => opt.Ignore())
                 .ForMember(c => c.DirectivePermissions, opt => opt.Ignore());
+            
             CreateMap<UpdateUserRequest, User>()
+                .ForMember(c => c.Roles, opt => opt.Ignore())
+                .ForMember(c => c.DirectivePermissions, opt => opt.Ignore());
+            
+            CreateMap<CreateUserWithGoogleRequest, User>()
                 .ForMember(c => c.Roles, opt => opt.Ignore())
                 .ForMember(c => c.DirectivePermissions, opt => opt.Ignore());
             #endregion

@@ -6,8 +6,7 @@ using GP.Application.Commands.CategoryCommands.AddCategoryCommands;
 using GP.Application.Commands.CategoryCommands.DeleteCategoryCommands;
 using GP.Application.Commands.CategoryCommands.UpdateCategoryCommands;
 using GP.DataAccess.Repository.CategoryRepository;
-using GP.MVC.Areas.Home.Controllers;
-using GP.MVC.Areas.Home.Models;
+using GP.MVC.Areas.Admin.Models;
 
 namespace GP.MVC.Areas.Admin.Controllers
 {
