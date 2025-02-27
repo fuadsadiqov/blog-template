@@ -19,38 +19,36 @@ using GP.Infrastructure.Middlewares;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.Google;
 using System.Security.Claims;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddSession(session =>
 {
     session.IdleTimeout = TimeSpan.FromMinutes(1);
-    session.Cookie.HttpOnly = true;
 });
 
-builder.Services.AddAuthentication(options =>
-{
-    options.DefaultAuthenticateScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-    options.DefaultChallengeScheme = GoogleDefaults.AuthenticationScheme;
-    options.DefaultSignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-})
-.AddCookie()
+builder.Services.AddIdentityCore<User>(options =>
+    options.SignIn.RequireConfirmedAccount = true)
+    .AddRoles<Role>()
+    //.AddRoleStore<UserRole>()
+    .AddEntityFrameworkStores<ApplicationDbContext>();
+
+builder.Services.AddAuthentication()
+
 .AddGoogle(googleOptions =>
 {
-    //googleOptions.ClientId = builder.Configuration["Authentication:Google:ClientId"];
-    googleOptions.ClientId = "1023033195510-t3f86pfrb040p631kn2okhpukm50dctv.apps.googleusercontent.com";
-    //googleOptions.ClientSecret = builder.Configuration["Authentication:Google:ClientId"];
-    googleOptions.ClientSecret = "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";
-    googleOptions.CallbackPath = "/signin-google";
-    googleOptions.Events.OnCreatingTicket = ctx =>
-    {
-        var identity = (ClaimsIdentity)ctx.Principal.Identity;
-        var email = ctx.User.GetProperty("email").GetString();
-        var name = ctx.User.GetProperty("name").GetString();
-        identity.AddClaim(new Claim(ClaimTypes.Email, email));
-        identity.AddClaim(new Claim(ClaimTypes.Name, name));
-        return Task.CompletedTask;
-    };
+//googleOptions.ClientId = builder.Configuration["Authentication:Google:ClientId"];
+googleOptions.ClientId = "1023033195510-t3f86pfrb040p631kn2okhpukm50dctv.apps.googleusercontent.com";
+//googleOptions.ClientSecret = builder.Configuration["Authentication:Google:ClientId"];
+googleOptions.ClientSecret = "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";
+googleOptions.CallbackPath = "/signin-google";
+googleOptions.Events.OnCreatingTicket = ctx =>
+{
+    var identity = (ClaimsIdentity)ctx.Principal.Identity;
+    return Task.CompletedTask;
+};
 
 });
 
@@ -165,8 +163,8 @@ app.UseForwardedHeaders(new ForwardedHeadersOptions
 {
     ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto
 });
+//app.UseCookiePolicy();
 
-app.UseCors();
 app.UseHttpsRedirection();
 
 app.UseSession();
@@ -175,12 +173,11 @@ var localizeOptions = ((IApplicationBuilder)app).ApplicationServices.GetRequired
 app.UseRequestLocalization(localizeOptions.Value);
 
 app.UseRouting();
-app.UseAuthorization();
-app.UseAuthentication();
+
 // app.ConfigureExceptionHandlingMiddleware();
 app.ConfigureAutoWrapperMiddleware();
-app.ConfigureLoggingMiddleware();
-app.UseMiddleware<UserJwtValidatorsMiddleware>();
+//app.ConfigureLoggingMiddleware();
+//app.UseMiddleware<UserJwtValidatorsMiddleware>();
 
 app.UseResponsiveFileManager();
 
@@ -190,7 +187,8 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
-app.UseAuthorization();
+
+
 
 app.MapAreaControllerRoute(
     name : "areas",
@@ -209,5 +207,7 @@ app.MapAreaControllerRoute(
     areaName: "Account",
     pattern : "{area:exists}/{controller=Login}/{action=Index}/{id?}"
 );
+app.UseAuthentication();
+app.UseAuthorization();
 
 app.Run();

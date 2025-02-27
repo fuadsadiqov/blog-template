@@ -40,7 +40,7 @@ namespace GP.Application.Commands.AccountCommands.SignInUserWithGoogle
             {
                 
                 var newUser = (await RegisterUser(fullName, email));
-                if (newUser.Response != null)
+                if (newUser.Response == null)
                     throw _exceptionService.InvalidSignInException();
                 user = await _userRepository.GetUserByEmailAsync(email)
                     .ConfigureAwait(false);
@@ -76,7 +76,7 @@ namespace GP.Application.Commands.AccountCommands.SignInUserWithGoogle
             CreateUserWithGoogleRequest request = new() { Email = email, FullNameAz = fullName };
             var result = await _mediator.Send(new CreateUserWithGoogleCommand(request));
             
-            if (result != null)
+            if (result == null)
                 throw _exceptionService.LockedUserException();
             
             return result;

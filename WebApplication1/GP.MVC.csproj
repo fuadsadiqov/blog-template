@@ -15,6 +15,7 @@
     <PackageReference Include="Google.Apis.Auth" Version="1.69.0" />
     <PackageReference Include="Google.Apis.Auth.AspNetCore3" Version="1.69.0" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.Google" Version="8.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="8.0.6" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.0">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -62,7 +63,6 @@
     <_ContentIncludedByDefault Remove="Areas\Home\Views\Category\Add.cshtml" />
     <_ContentIncludedByDefault Remove="Areas\Home\Views\Category\Edit.cshtml" />
     <_ContentIncludedByDefault Remove="Areas\Home\Views\Category\Index.cshtml" />
-    <_ContentIncludedByDefault Remove="Areas\Home\Views\Account\Index.cshtml" />
   </ItemGroup>
 
 </Project>

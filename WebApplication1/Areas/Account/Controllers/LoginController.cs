@@ -51,9 +51,10 @@ namespace GP.MVC.Areas.Account.Controllers
 
             var email = claims?.FirstOrDefault(c => c.Type == ClaimTypes.Email)?.Value;
             var fullname = claims?.FirstOrDefault(c => c.Type == ClaimTypes.Name)?.Value;
-            
+            var s2 = User.Identity.IsAuthenticated;
             SignInUserWithGoogleRequest request = new() { Email = email, FullName = fullname };
             var response = await Mediator.Send(new SignInUserWithGoogleCommand(request));
+           var s= User.Identity.IsAuthenticated;
             if (response.IsSigned)
                 return RedirectToAction("Index", "Home", new { area = "Home" });
             else

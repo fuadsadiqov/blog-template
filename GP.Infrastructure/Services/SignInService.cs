@@ -101,31 +101,34 @@ namespace GP.Infrastructure.Services
             {
                 new Claim(ClaimTypes.Name, user.UserName!),
                 new Claim(ClaimTypes.Email, user.Email!),
-                // Add additional claims as needed
             };
 
             // Optionally, you can add roles as claims
             var roles = await _userManager.GetRolesAsync(user);
-            foreach (var role in roles)
+            if(roles != null && roles.Any())
             {
-                claims.Add(new Claim(ClaimTypes.Role, role));
+                foreach (var role in roles)
+                {
+                    claims.Add(new Claim(ClaimTypes.Role, role));
+                }
             }
 
-            var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+            var claimsIdentity = new ClaimsIdentity(claims);
             var claimsPrincipal = new ClaimsPrincipal(claimsIdentity);
 
             // Explicitly sign the user in using cookies
-            await _signInManager.SignInAsync(user, isPersistent: false,
-                CookieAuthenticationDefaults.AuthenticationScheme);
+            await _signInManager.SignInAsync(user, isPersistent: false);
+            var userPrincipal = await _signInManager.CreateUserPrincipalAsync(user);
 
-            await _httpContextAccessor.HttpContext!.SignInAsync(
-                CookieAuthenticationDefaults.AuthenticationScheme,
-                claimsPrincipal);
+            var s = _signInManager.IsSignedIn(userPrincipal);
+
+            //await _httpContextAccessor.HttpContext!.SignInAsync(
+            //    claimsPrincipal);
 
             return new UserSignInResult()
             {
                 Succeeded = true,
-                IsLockOut = true
+                IsLockOut = false
             };
 
         }

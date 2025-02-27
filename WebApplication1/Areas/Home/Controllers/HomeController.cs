@@ -5,10 +5,12 @@ using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 using GP.Application.Commands.BlogCommands.UpdateBlogViewCount;
 using GP.DataAccess.Repository.UserRepository;
+using Microsoft.AspNetCore.Authorization;
 
 namespace GP.MVC.Areas.Home.Controllers
 {
     [Area("Home")]
+    [Authorize]
     public class HomeController : BaseController
     {
         private readonly ILogger<HomeController> _logger;
