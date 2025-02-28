@@ -15,12 +15,8 @@ using Serilog;
 using GP.Logging;
 using GP.Data;
 using GP.DataAccess.Initialize;
-using GP.Infrastructure.Middlewares;
-using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Authentication.Google;
 using System.Security.Claims;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
+using GP.Infrastructure.Middlewares;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -36,7 +32,6 @@ builder.Services.AddIdentityCore<User>(options =>
     .AddEntityFrameworkStores<ApplicationDbContext>();
 
 builder.Services.AddAuthentication()
-
 .AddGoogle(googleOptions =>
 {
 //googleOptions.ClientId = builder.Configuration["Authentication:Google:ClientId"];
@@ -138,6 +133,12 @@ builder.Services.ConfigureDependencyInjections(builder.Configuration, new Depend
 });
 builder.Services.AddHostedService<CacheDataRestorationService>();
 
+builder.Services.ConfigureApplicationCookie(options =>
+{
+    options.LoginPath = "/Account/Login";
+    options.AccessDeniedPath = "/Account/AccessDenied";
+});
+
 Log.Logger = new LoggerConfiguration().BuildLoggerConfiguration(builder.Services, builder.Configuration).CreateLogger();
 var app = builder.Build();
 
@@ -176,19 +177,14 @@ app.UseRouting();
 
 // app.ConfigureExceptionHandlingMiddleware();
 app.ConfigureAutoWrapperMiddleware();
+app.UseMiddleware<GlobalExceptionHandlingMiddleware>();
 //app.ConfigureLoggingMiddleware();
 //app.UseMiddleware<UserJwtValidatorsMiddleware>();
 
 app.UseResponsiveFileManager();
 
-app.UseHttpsRedirection();
 app.UseDefaultFiles();
 app.UseStaticFiles();
-
-app.UseRouting();
-
-
-
 
 app.MapAreaControllerRoute(
     name : "areas",
@@ -205,7 +201,7 @@ app.MapAreaControllerRoute(
 app.MapAreaControllerRoute(
     name : "areas",
     areaName: "Account",
-    pattern : "{area:exists}/{controller=Login}/{action=Index}/{id?}"
+    pattern: "{controller=Home}/{action=Index}/{id?}"
 );
 app.UseAuthentication();
 app.UseAuthorization();

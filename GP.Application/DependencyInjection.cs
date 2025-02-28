@@ -15,6 +15,7 @@ using MediatR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Features;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Server.Kestrel.Core;
@@ -59,7 +60,6 @@ namespace GP.Application
                 .ConfigureAuthentication(configuration)
                 .ConfigureAuthorization()
                 .ConfigureDatabase(configuration)
-                .ConfigureCors()
                 .AddHttpClient()
                 .AddRepositories()
                 .ConfigureAutoMapper(options.AutoMapperAssemblies)
@@ -74,7 +74,7 @@ namespace GP.Application
         public static IApplicationBuilder ConfigureLoggingMiddleware(this IApplicationBuilder builder)
         {
             builder.UseMiddleware<LoggingMiddleware>();
-
+                
             return builder;
         }
 
@@ -335,51 +335,20 @@ namespace GP.Application
 
         private static IServiceCollection ConfigureAuthentication(this IServiceCollection services, IConfiguration configuration)
         {
-            var appSettingsSection = configuration.GetSection("TokenSettings");
-            services.Configure<TokenSettings>(appSettingsSection);
-            JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
-            var appSettings = appSettingsSection.Get<TokenSettings>();
-            var key = Encoding.ASCII.GetBytes(appSettings.JwtKey);
-            var issuer = appSettings.JwtIssuer;
-
-            services.AddAuthentication(x =>
+            // Add authentication with cookie authentication
+            services.AddAuthentication(IdentityConstants.ApplicationScheme)
+            .AddCookie(options =>
             {
-                x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-                x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-                x.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.Cookie.Name = "YourAppName.Cookie";
+                options.Cookie.HttpOnly = true;
+                options.Cookie.SecurePolicy = CookieSecurePolicy.SameAsRequest;
+                options.ExpireTimeSpan = TimeSpan.FromMinutes(30); 
+                options.SlidingExpiration = true;
 
-            }).AddJwtBearer(x =>
-            {
-
-                x.IncludeErrorDetails = true;
-                x.RequireHttpsMetadata = false;
-                x.SaveToken = false;
-                x.TokenValidationParameters = new TokenValidationParameters
-                {
-                    ValidIssuer = issuer,
-                    ValidAudience = issuer,
-                    ValidateIssuerSigningKey = true,
-                    IssuerSigningKey = new SymmetricSecurityKey(key),
-                    ClockSkew = TimeSpan.Zero
-                };
-                x.Events = new JwtBearerEvents
-                {
-                    OnMessageReceived = context =>
-                    {
-                        var accessToken = context.Request.Query["access_token"];
-
-                        // If the request is for our hub...
-                        var path = context.HttpContext.Request.Path;
-                        if (!string.IsNullOrEmpty(accessToken))
-                        {
-                            // Read the token out of the query string
-                            context.Token = accessToken;
-                        }
-                        return Task.CompletedTask;
-                    }
-                };
+                options.LoginPath = "/Account/Login";
+                options.LogoutPath = "/Account/Logout"; 
+                options.AccessDeniedPath = "/Account/AccessDenied";
             });
-
             return services;
         }
 

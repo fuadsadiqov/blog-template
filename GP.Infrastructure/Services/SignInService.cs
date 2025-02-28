@@ -15,6 +15,14 @@ namespace GP.Infrastructure.Services
         public bool IsLockOut { get; set; }
         public Exception Exception { get; set; }
     }
+    public class UserSignOutResult
+    {
+        public bool Succeeded { get; set; }
+        public bool IsLockOut { get; set; }
+        public Exception Exception { get; set; }
+    }
+
+
     public class SignInService
     {
         private readonly SignInManager<User> _signInManager;
@@ -33,13 +41,7 @@ namespace GP.Infrastructure.Services
 
         public async Task<UserSignInResult> LocalSignInAsync(User user, string password)
         {
-            var dateTimeNow = DateTime.Now.AddHours(-1);
-            if (user.LastAccessFailedAttempt <
-                dateTimeNow) //unlock user if 1 hour has passed since last failed access attempt
-            {
-                await _userRepository.SetUnLockoutAsync(user);
-            }
-
+            
             var result = await _signInManager.CheckPasswordSignInAsync(user, password, true).ConfigureAwait(false);
             if (!result.Succeeded)
             {
@@ -54,31 +56,8 @@ namespace GP.Infrastructure.Services
                 };
             }
 
-            // Create a ClaimsIdentity with user claims
-            var claims = new List<Claim>
-            {
-                new Claim(ClaimTypes.Name, user.UserName!),
-                new Claim(ClaimTypes.Email, user.Email!),
-                // Add additional claims as needed
-            };
-
-            // Optionally, you can add roles as claims
-            var roles = await _userManager.GetRolesAsync(user);
-            foreach (var role in roles)
-            {
-                claims.Add(new Claim(ClaimTypes.Role, role));
-            }
-
-            var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
-            var claimsPrincipal = new ClaimsPrincipal(claimsIdentity);
-
-            // Explicitly sign the user in using cookies
             await _signInManager.SignInAsync(user, isPersistent: false,
                 CookieAuthenticationDefaults.AuthenticationScheme);
-
-            await _httpContextAccessor.HttpContext!.SignInAsync(
-                CookieAuthenticationDefaults.AuthenticationScheme,
-                claimsPrincipal);
 
             return new UserSignInResult()
             {
@@ -89,48 +68,27 @@ namespace GP.Infrastructure.Services
         }
          public async Task<UserSignInResult> SignInWithGoogleAsync(User user)
         {
-            // var dateTimeNow = DateTime.Now.AddHours(-1);
-            // if (user.LastAccessFailedAttempt <
-            //     dateTimeNow) //unlock user if 1 hour has passed since last failed access attempt
-            // {
-            //     await _userRepository.SetUnLockoutAsync(user);
-            // }
-
-            // Create a ClaimsIdentity with user claims
-            var claims = new List<Claim>
-            {
-                new Claim(ClaimTypes.Name, user.UserName!),
-                new Claim(ClaimTypes.Email, user.Email!),
-            };
-
-            // Optionally, you can add roles as claims
-            var roles = await _userManager.GetRolesAsync(user);
-            if(roles != null && roles.Any())
-            {
-                foreach (var role in roles)
-                {
-                    claims.Add(new Claim(ClaimTypes.Role, role));
-                }
-            }
-
-            var claimsIdentity = new ClaimsIdentity(claims);
-            var claimsPrincipal = new ClaimsPrincipal(claimsIdentity);
-
-            // Explicitly sign the user in using cookies
+            
             await _signInManager.SignInAsync(user, isPersistent: false);
-            var userPrincipal = await _signInManager.CreateUserPrincipalAsync(user);
-
-            var s = _signInManager.IsSignedIn(userPrincipal);
-
-            //await _httpContextAccessor.HttpContext!.SignInAsync(
-            //    claimsPrincipal);
-
+            
             return new UserSignInResult()
             {
                 Succeeded = true,
                 IsLockOut = false
             };
 
+        }
+
+        public async Task<UserSignOutResult> SignOutAsync()
+        {
+            await _signInManager.SignOutAsync();
+            await _httpContextAccessor.HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+
+            return new UserSignOutResult()
+            {
+                Succeeded = true,
+                IsLockOut = false
+            };
         }
     }
 }

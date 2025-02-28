@@ -43,11 +43,11 @@
     @if (User.Identity.IsAuthenticated)
     {
         <p>Welcome, @User.Identity.Name!</p>
-        <a asp-controller="Account" asp-action="Logout">Logout</a>
+        <a asp-area="Account" asp-controller="Account" asp-action="Logout">Logout</a>
     }
     else
     {
-        <a asp-controller="Account" asp-action="Login">Login with Google</a>
+        <a asp-area="Account" asp-controller="Account" asp-action="Login">Login with Google</a>
     }
     <div class="container">
         <main role="main" class="pb-3">
