@@ -37,18 +37,33 @@
                         </ul>
                     }
                 </div>
+                @* Login *@
+                @if (!User.Identity.IsAuthenticated)
+                {
+                    <div>
+                        <a asp-area="Account" asp-controller="Account" asp-action="Login" class="btn btn-primary">Daxil Ol</a>
+                        <a asp-area="Account" asp-controller="Account" asp-action="Register" class="btn btn-outline-primary">Qeydiyyat</a>
+                    </div>
+                }
+                else
+                {
+                    <div class="dropdown text-end">
+                        <a class="d-block link-dark text-decoration-none dropdown-toggle" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
+                            <img src="https://github.com/mdo.png" alt="mdo" width="32" height="32" class="rounded-circle">
+                        </a>
+                        <ul class="dropdown-menu text-small" style="left: -100px !important;" aria-labelledby="dropdownUser1">
+                            <li><a class="dropdown-item" href="#">New project...</a></li>
+                            <li><a class="dropdown-item" href="#">Settings</a></li>
+                            <li><a class="dropdown-item" href="#">Profile</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" asp-area="Account" asp-controller="Account" asp-action="Logout">Sign out</a></li>
+                        </ul>
+                    </div>
+                }
+                @* End of Login *@
             </div>
         </nav>
     </header>
-    @if (User.Identity.IsAuthenticated)
-    {
-        <p>Welcome, @User.Identity.Name!</p>
-        <a asp-area="Account" asp-controller="Account" asp-action="Logout">Logout</a>
-    }
-    else
-    {
-        <a asp-area="Account" asp-controller="Account" asp-action="Login">Login with Google</a>
-    }
     <div class="container">
         <main role="main" class="pb-3">
             @RenderBody()

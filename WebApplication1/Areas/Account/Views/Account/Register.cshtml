@@ -1,22 +1,45 @@
-﻿<div class="login-page">
+﻿@model RegisterRequest;
+@{
+    @if (TempData["ErrorMessage"] != null)
+    {
+        @section Scripts {
+            <script>
+            $(function () {
+                alert('@Html.Raw(TempData["ErrorMessage"])');
+            });
+        </script>
+        }
+    }
+}
+
+<div class="login-page">
     <div class="login-container w-100 position-relative">
         <div class="w-100 d-flex justify-content-center">
-            <a asp-controller="Login" asp-action="LoginWithGoogle" class="btn mb-2 btn-light google-btn d-flex align-content-center justify-content-center gap-2">
+            <a asp-controller="Account" asp-action="LoginWithGoogle" class="btn mb-2 btn-light google-btn d-flex align-content-center justify-content-center gap-2">
                 <img width="25" src="/assets/icons/google.svg" alt="google">
                 <span class="text-dark">Login with Google</span>
             </a>
         </div>
-        <h3 class="text-center mb-4">Daxil ol</h3>
-        <form asp-controller="Login" asp-action="Login" class="w-100" method="post">
+        <h3 class="text-center mb-4">Qeydiyyatdan keç</h3>
+        <form asp-controller="Account" asp-action="Register" class="w-100" method="post">
+            <div class="mb-3">
+                <label for="fullName" class="form-label">Ad Soyad</label>
+                <input  required type="text" name="fullNameAz" class="form-control" id="fullName" placeholder="Ad / Soyad">
+            </div>
             <div class="mb-3">
                 <label for="email" class="form-label">Email</label>
-                <input type="email" name="email" class="form-control" id="email" placeholder="Email">
+                <input required type="email" name="email" class="form-control" id="email" placeholder="Email">
             </div>
             <div class="mb-3">
                 <label for="password" class="form-label">Şifrə</label>
-                <input type="password" name="password" class="form-control" id="password" placeholder="Şifrə">
+                <input  min="8" required type="password" name="password" class="form-control" id="password" placeholder="Şifrə">
             </div>
-            <button type="submit" class="btn btn-primary w-100">Daxil ol</button>
+            <div class="mb-3">
+                <label for="confirmPassword" class="form-label">Şifrə təsdiqi</label>
+                <input min="8" required type="password" name="confirmPassword" class="form-control" id="confirmPassword" placeholder="Şifrə təsdiqi">
+            </div>
+            <button type="submit" class="btn btn-primary w-100">Qeydiyyatdan keç</button>
+            <a class="text-decoration-underline d-block text-center mt-4" asp-controller="Account" asp-action="Login">Daxil ol</a>
         </form>
     </div>
 </div>

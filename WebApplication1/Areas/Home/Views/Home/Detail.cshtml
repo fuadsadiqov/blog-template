@@ -32,15 +32,6 @@
                     </div>
                 </div>
                 <div class="pt-4">@(new HtmlString(@blog.Description))</div>
-                @if (User.Identity.IsAuthenticated)
-                {
-                    <p>Welcome, @User.Identity.Name!</p>
-                    <a href="@Url.Action("Logout", "Home")">Logout</a>
-                }
-                else
-                {
-                    <a href="@Url.Action("Login", "Home")">Login with Google</a>
-                }
                 <div class="pt-5">
                     <h4>Rəylər (@blog.Reviews.Count)</h4>
                     <form method="post">

@@ -45,22 +45,28 @@ namespace GP.Application.Commands.UserCommands.CreateUser
             if (!result.Succeeded)
             {
                 var errorMessage = result.Errors.FirstOrDefault();
-                throw new ApiException(errorMessage, StatusCodes.Status409Conflict);
+                _exceptionService.WrongRequestException(errorMessage.Description);
             }
 
             if (result.Succeeded)
             {
-                await _mediator.Send(new SetUserRoleCommand(new SetUserRoleRequest()
+                if (command.Request.Roles != null && command.Request.Roles.Any())
                 {
-                    RoleIds = command.Request.Roles,
-                    UserId = user.Id
-                }), cancellationToken);
+                    await _mediator.Send(new SetUserRoleCommand(new SetUserRoleRequest()
+                    {
+                        RoleIds = command.Request.Roles,
+                        UserId = user.Id
+                    }), cancellationToken);
+                }
 
-                await _mediator.Send(new SetUserPermissionCommand(new SetUserPermissionRequest()
+                if (command.Request.Roles != null && command.Request.Roles.Any())
                 {
-                    PermissionIds = command.Request.DirectivePermissions,
-                    UserId = user.Id
-                }), cancellationToken);
+                    await _mediator.Send(new SetUserPermissionCommand(new SetUserPermissionRequest()
+                    {
+                        PermissionIds = command.Request.DirectivePermissions,
+                        UserId = user.Id
+                    }), cancellationToken);
+                }
             }
 
             return new CreateUserResponse()

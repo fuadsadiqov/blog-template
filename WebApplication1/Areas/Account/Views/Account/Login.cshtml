@@ -2,7 +2,7 @@
     @if (TempData["ErrorMessage"] != null)
     {
         @section Scripts {
-        <script>
+            <script>
             $(function () {
                 alert('@Html.Raw(TempData["ErrorMessage"])');
             });
@@ -14,7 +14,7 @@
 <div class="login-page">
     <div class="login-container w-100 position-relative">
         <div class="w-100 d-flex justify-content-center">
-            <a asp-controller="Login" asp-action="LoginWithGoogle" class="btn mb-2 btn-light google-btn d-flex align-content-center justify-content-center gap-2">
+            <a asp-controller="Account" asp-action="LoginWithGoogle" class="btn mb-2 btn-light google-btn d-flex align-content-center justify-content-center gap-2">
                 <img width="25" src="/assets/icons/google.svg" alt="google">
                 <span class="text-dark">Login with Google</span>
             </a>
@@ -23,13 +23,14 @@
         <form asp-area="Account" asp-controller="Account" asp-action="Login" class="w-100" method="post">
             <div class="mb-3">
                 <label for="email" class="form-label">Email</label>
-                <input type="email" name="email" class="form-control" id="email" placeholder="Email">
+                <input required type="email" name="email" class="form-control" id="email" placeholder="Email">
             </div>
             <div class="mb-3">
                 <label for="password" class="form-label">Şifrə</label>
-                <input type="password" name="password" class="form-control" id="password" placeholder="Şifrə">
+                <input min="8" required type="password" name="password" class="form-control" id="password" placeholder="Şifrə">
             </div>
             <button type="submit" class="btn btn-primary w-100">Daxil ol</button>
+            <a class="text-decoration-underline d-block text-center mt-4" asp-controller="Account" asp-action="Register">Qeydiyyatdan keç</a>
         </form>
     </div>
 </div>

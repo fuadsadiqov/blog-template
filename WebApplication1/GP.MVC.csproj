@@ -34,7 +34,6 @@
     <AdditionalFiles Include="Areas\Admin\Views\Shared\Error.cshtml" />
     <AdditionalFiles Include="Areas\Admin\Views\Shared\_Layout.cshtml" />
     <AdditionalFiles Include="Areas\Admin\Views\Shared\_ValidationScriptsPartial.cshtml" />
-    <AdditionalFiles Include="Areas\Home\Views\Home\Login.cshtml" />
     <AdditionalFiles Include="Areas\Home\Views\Home\Detail.cshtml" />
     <AdditionalFiles Include="Areas\Home\Views\Home\Index.cshtml" />
     <AdditionalFiles Include="Areas\Home\Views\Home\Privacy.cshtml" />

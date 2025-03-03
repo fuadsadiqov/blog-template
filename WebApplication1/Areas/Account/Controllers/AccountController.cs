@@ -11,6 +11,7 @@ using MediatR;
 using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pages.Manage;
 using GP.Application.Commands.AccountCommands.SignInUser;
 using AutoWrapper.Wrappers;
+using GP.Application.Commands.UserCommands.CreateUser;
 using GP.Infrastructure.Services;
 
 namespace GP.MVC.Areas.Account.Controllers
@@ -21,36 +22,80 @@ namespace GP.MVC.Areas.Account.Controllers
         private readonly ILogger<AccountController> _logger;
         private readonly IUserRepository _userRepository;
         private readonly SignInService _signInService;
-
-        public AccountController(ILogger<AccountController> logger, IUserRepository userRepository, SignInService signInService)
+        private readonly ExceptionService _exceptionService;
+        
+        public AccountController(ILogger<AccountController> logger, IUserRepository userRepository, SignInService signInService, ExceptionService exceptionService)
         {
             _logger = logger;
             _userRepository = userRepository;
             _signInService = signInService;
+            _exceptionService = exceptionService;
         }
 
         public IActionResult Login()
         {
             return View();
         }
+
+        [HttpGet]
+        public IActionResult Register()
+        {
+            return View();
+        }
         
         public IActionResult LoginWithGoogle()
         {
-            var redirectUrl = Url.Action(nameof(GoogleResponse), "Login", null, Request.Scheme);
+            var redirectUrl = Url.Action(nameof(GoogleResponse), "Account", null, Request.Scheme);
             var properties = new AuthenticationProperties { RedirectUri = redirectUrl };
             return Challenge(properties, GoogleDefaults.AuthenticationScheme);
         }
 
-
         [HttpPost]
         public async Task<IActionResult> Login([FromForm] LoginRequest loginRequest)
         {
-            Console.WriteLine(loginRequest);
-            var email = loginRequest.Email;
-            var password = loginRequest.Password;
-            SignInUserRequest request = new() { EmailOrUsername = email, Password = password, Code = String.Empty, RememberMe =false };
-            var response = await Mediator.Send(new SignInUserCommand(request));
+            if (ModelState.IsValid)
+            {
+                var email = loginRequest.Email;
+                var password = loginRequest.Password;
+                SignInUserRequest request = new() { EmailOrUsername = email, Password = password, Code = String.Empty, RememberMe =false };
+                var response = await Mediator.Send(new SignInUserCommand(request));
+                return RedirectToAction("Index", "Home", new { Area = "Home" });
+            }
+        
             return View();
+        }
+        
+        [HttpPost]
+        public async Task<IActionResult> Register([FromForm] RegisterRequest registerRequest)
+        {
+            if (ModelState.IsValid)
+            {
+                CreateUserRequest request = new()
+                {
+                    Email = registerRequest.Email, 
+                    FullNameAz = registerRequest.FullNameAz,
+                    FullNameEn = registerRequest.FullNameAz,
+                    UserName = registerRequest.Email,
+                    Password = registerRequest.Password, 
+                    ConfirmPassword = registerRequest.ConfirmPassword,
+                };
+                if (registerRequest.Password != registerRequest.ConfirmPassword)
+                {
+                    TempData["ErrorMessage"] = "Şifrələr eyni deyil";
+                    return View(registerRequest);
+                }
+                var response = await Mediator.Send(new CreateUserCommand(request));
+                if (response.Response != null)
+                {
+                    return RedirectToAction("Index", "Home", new { Area = "Home" });
+                }
+            }
+            var message = string.Join(". ", ModelState.Values
+                .SelectMany(v => v.Errors)
+                .Select(e => e.ErrorMessage));
+            
+            TempData["ErrorMessage"] = message;
+            return View(registerRequest);
         }
 
         public async Task<IActionResult> GoogleResponse()
