@@ -42,3 +42,10 @@
     padding-bottom: 10px;
     border-bottom: 1px dashed #CCC;
 }
+
+.rounded-circle {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background-color: #ccc;
+}

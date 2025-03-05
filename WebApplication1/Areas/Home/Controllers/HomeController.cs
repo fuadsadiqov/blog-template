@@ -6,9 +6,16 @@ using System.Diagnostics;
 using GP.Application.Commands.BlogCommands.UpdateBlogViewCount;
 using GP.DataAccess.Repository.UserRepository;
 using Microsoft.AspNetCore.Authorization;
+using GP.Application.Commands.ReviewCommands.AddReviewCommand;
 
 namespace GP.MVC.Areas.Home.Controllers
 {
+    public class ReviewForm
+    {
+        public string Message{ get; set; }
+        public Guid BlogId { get; set; }
+    }
+
     [Area("Home")]
     public class HomeController : BaseController
     {
@@ -41,6 +48,23 @@ namespace GP.MVC.Areas.Home.Controllers
             BlogDetailViewModel model = new BlogDetailViewModel{ lastBlogs = lastBlogs.BlogResponses, blog = blog.BlogResponse };
             
             return View(model);
+        }
+
+        [HttpGet]
+        public IActionResult Review()
+        {
+            return RedirectToAction("Index");
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Review([FromForm] ReviewForm reviewForm)
+        {
+            var message = reviewForm.Message;
+            var blogId = reviewForm.BlogId;
+            var email = User.Identity.Name;
+
+            var response = await Mediator.Send(new AddReviewCommand(new AddReviewRequest() { Email = email, BlogId = blogId, Message = message }));
+            return View(nameof(Index));
         }
         
         public IActionResult Privacy()

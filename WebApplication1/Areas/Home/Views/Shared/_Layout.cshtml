@@ -1,8 +1,15 @@
 ﻿@using GP.Application.CategoryQueries
+@using GP.Domain.Entities.Identity
 @inject GP.DataAccess.Repository.CategoryRepository.ICategoryRepository categoryRepository
+@inject GP.DataAccess.Repository.UserRepository.IUserRepository userRepository
 
 @{
     var categories = categoryRepository.GetAll();
+    User user = new();
+    if (User.Identity.IsAuthenticated)
+    {
+        user = await userRepository.GetUserByEmailAsync(User.Identity.Name);
+    }
 }
 <!DOCTYPE html>
 <html lang="en">
@@ -48,11 +55,13 @@
                 else
                 {
                     <div class="dropdown text-end">
-                        <a class="d-block link-dark text-decoration-none dropdown-toggle" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
-                            <img src="https://github.com/mdo.png" alt="mdo" width="32" height="32" class="rounded-circle">
+                        <a class="d-flex align-items-center link-dark text-decoration-none dropdown-toggle" style="cursor: pointer;" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
+                            <div class="rounded-circle"></div>
                         </a>
                         <ul class="dropdown-menu text-small" style="left: -100px !important;" aria-labelledby="dropdownUser1">
-                            <li><a class="dropdown-item" href="#">New project...</a></li>
+                            <li><a class="dropdown-item fw-bold">@user.FullNameAz</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="#">New blog</a></li>
                             <li><a class="dropdown-item" href="#">Settings</a></li>
                             <li><a class="dropdown-item" href="#">Profile</a></li>
                             <li><hr class="dropdown-divider"></li>

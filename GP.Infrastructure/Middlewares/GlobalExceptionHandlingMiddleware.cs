@@ -51,7 +51,7 @@ namespace GP.Infrastructure.Middlewares
 
             if (area != null)
             {
-                if(area.ToLower() == "Account".ToLower())
+                if(area.ToLower() == "Account".ToLower() || area.ToLower() == "Home".ToLower())
                 {
                     context.Response.Redirect($"/{controller}/{action}");
                 }
