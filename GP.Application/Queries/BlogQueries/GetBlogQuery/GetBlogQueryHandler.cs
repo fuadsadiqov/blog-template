@@ -30,7 +30,7 @@ namespace GP.Application.BlogQueries.GetBlogQuery
 
         public async Task<GetBlogResponse> Handle(GetBlogQuery query, CancellationToken cancellationToken)
         {
-            List<string> includes = new List<string>(){ "Category", "Tags.Tag", "Reviews"};
+            List<string> includes = new List<string>(){ "Category", "Tags.Tag", "Reviews.User"};
             var id = query.Request.Id;
             var blog = await _repository.GetFirstAsync(b => b.Id == id, includes.ToArray());
             var result = _mapper.Map<Blog, BlogDetailResponse>(blog);

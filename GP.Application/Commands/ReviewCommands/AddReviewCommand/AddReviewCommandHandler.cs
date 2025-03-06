@@ -36,7 +36,7 @@ namespace GP.Application.Commands.ReviewCommands.AddReviewCommand
                 throw new WrongRequestException("Rəy boşdur");
             }
 
-            var reviewAlreadyExist = await _reviewRepository.GetFirstAsync(r => r.UserId == user.Id);
+            var reviewAlreadyExist = await _reviewRepository.GetFirstAsync(r => r.UserId == user.Id && r.BlogId == blogId);
 
             if(reviewAlreadyExist != null)
             {

@@ -32,7 +32,8 @@
                     </div>
                 </div>
                 <div class="pt-4">@(new HtmlString(@blog.Description))</div>
-                <div class="pt-5">
+                <div class="pt-5 pb-3">
+                    <div class="border-bottom pb-3 border-black">
                     <h4>Rəylər (@blog.Reviews.Count)</h4>
                     @if (!User.Identity.IsAuthenticated)
                     {
@@ -44,20 +45,33 @@
                     {
                         <form method="post" asp-controller="Home" asp-action="Review">
                             <div class="d-flex">
-                                <input type="hidden" class="d-none" name="blogId" value="@blog.Id" />
+                                <input type="hidden" class="d-none" name="blogId" value="@blog.Id"/>
                                 <input name="message" type="text" class="form-control" placeholder="Rəy əlavə edin">
                                 <button class="btn bg-primary text-white text-nowrap">Əlavə et</button>
                             </div>
                         </form>
                     }
-                    @foreach (var review in blog.Reviews)
-                    {
-                        <div>
+                    </div>
+                    <div class="pt-2">
+                        @foreach (var review in blog.Reviews)
+                        {
+                            var date = review.DateCreated.ToString("dd.MM.yyyy");
                             <div>
-                                @review.Message
+                                <div class="border-bottom py-2">
+                                    <div class="d-flex gap-1 align-items-center">
+                                        <img width="30" class="rounded-circle border border-black" src="/assets/icons/profile.png" alt="profile">
+                                        <div class="d-flex flex-column">
+                                            <span style="font-size: 13px;" class="fw-normal">@review.User.FullNameAz</span>
+                                            <span style="font-size: 11px;">@date</span>
+                                        </div>
+                                    </div>
+                                    <div class="pt-2" style="font-size: 13px;">
+                                        @review.Message
+                                    </div>
+                                </div>
                             </div>
-                        </div>
-                    }
+                        }
+                    </div>
                 </div>
             </div>
             <div class="col-md-4 col-12 last-news">

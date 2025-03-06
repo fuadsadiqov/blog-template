@@ -1,4 +1,5 @@
 ﻿using GP.Domain.Entities.Common;
+using GP.Domain.Entities.Identity;
 
 namespace GP.Application.Queries.BlogQueries
 {
@@ -21,5 +22,21 @@ namespace GP.Application.Queries.BlogQueries
     {
         public Guid Id { get; set; }
         public string Title{ get; set; }
+    }
+
+    public class BlogReview
+    {
+        public Guid Id { get; set; }
+        public string Message { get; set; }
+        public DateTime DateCreated { get; set; }
+        public BlogReviewUser User { get; set; }
+        public Guid BlogId { get; set; }
+        public string Date => DateCreated.ToString("dd.MM.yyyy - HH:mm");
+    }
+
+    public class BlogReviewUser
+    {
+        public Guid Id { get; set; }   
+        public string FullName { get; set; }   
     }
 }

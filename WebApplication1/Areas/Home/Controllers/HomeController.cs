@@ -64,7 +64,8 @@ namespace GP.MVC.Areas.Home.Controllers
             var email = User.Identity.Name;
 
             var response = await Mediator.Send(new AddReviewCommand(new AddReviewRequest() { Email = email, BlogId = blogId, Message = message }));
-            return View(nameof(Index));
+            
+            return RedirectToAction("Detail", new { id = blogId });
         }
         
         public IActionResult Privacy()
