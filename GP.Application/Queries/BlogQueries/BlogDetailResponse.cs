@@ -13,7 +13,7 @@ namespace GP.Application.Queries.BlogQueries
         public BlogCategoryResponse Category { get; set; }
         public string ViewCount { get; set; }
         public string Tags { get; set; }
-        public ICollection<Review> Reviews { get; set; }
+        public ICollection<BlogReview> Reviews { get; set; }
         public DateTime DateCreated{ get; set; }
         public string Date => DateCreated.ToString("dd.MM.yyyy - HH:mm");
     }
@@ -36,7 +36,8 @@ namespace GP.Application.Queries.BlogQueries
 
     public class BlogReviewUser
     {
-        public Guid Id { get; set; }   
-        public string FullName { get; set; }   
+        public string Id { get; set; }   
+        public string FullName { get; set; }
+        public bool IsAuthReview { get; set; }
     }
 }

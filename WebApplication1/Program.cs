@@ -177,7 +177,10 @@ app.UseRouting();
 
 // app.ConfigureExceptionHandlingMiddleware();
 app.ConfigureAutoWrapperMiddleware();
-app.UseMiddleware<GlobalExceptionHandlingMiddleware>();
+
+// hələki kommentə alıram çünki düzgün işləmir
+// app.UseMiddleware<GlobalExceptionHandlingMiddleware>();
+
 //app.ConfigureLoggingMiddleware();
 //app.UseMiddleware<UserJwtValidatorsMiddleware>();
 

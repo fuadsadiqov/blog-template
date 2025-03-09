@@ -7,6 +7,7 @@ using GP.Application.Commands.BlogCommands.UpdateBlogViewCount;
 using GP.DataAccess.Repository.UserRepository;
 using Microsoft.AspNetCore.Authorization;
 using GP.Application.Commands.ReviewCommands.AddReviewCommand;
+using GP.Infrastructure.Services;
 
 namespace GP.MVC.Areas.Home.Controllers
 {
@@ -20,10 +21,12 @@ namespace GP.MVC.Areas.Home.Controllers
     public class HomeController : BaseController
     {
         private readonly ILogger<HomeController> _logger;
+        private readonly AuthService _authService;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger, AuthService authService)
         {
             _logger = logger;
+            _authService = authService;
         }
 
         public async Task<IActionResult> Index()
@@ -45,6 +48,17 @@ namespace GP.MVC.Areas.Home.Controllers
             var blog = await Mediator.Send(new GetBlogQuery(request));
             var lastBlogs = await Mediator.Send(new GetAllBlogsQuery(new GetAllBlogsRequest()));
 
+            var userId = _authService.GetAuthorizedUserId();
+
+            if (userId != null && blog.BlogResponse.Reviews != null && blog.BlogResponse.Reviews.Any())
+            {
+                var authUserReview = blog.BlogResponse.Reviews.FirstOrDefault(r => r.User.Id == userId);
+                if (authUserReview != null)
+                {
+                    authUserReview.User.IsAuthReview = true;
+                }
+            }
+            
             BlogDetailViewModel model = new BlogDetailViewModel{ lastBlogs = lastBlogs.BlogResponses, blog = blog.BlogResponse };
             
             return View(model);
