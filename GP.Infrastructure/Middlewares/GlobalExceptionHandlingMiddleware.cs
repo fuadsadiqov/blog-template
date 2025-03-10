@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Microsoft.Extensions.Logging;
+using NToastNotify;
 
 namespace GP.Infrastructure.Middlewares
 {
@@ -10,12 +11,14 @@ namespace GP.Infrastructure.Middlewares
         private readonly RequestDelegate _next;
         private readonly ILogger<GlobalExceptionHandlingMiddleware> _logger;
         private readonly ITempDataDictionaryFactory _tempDataDictionaryFactory;
+        // private readonly IToastNotification _toastNotification;
 
         public GlobalExceptionHandlingMiddleware(RequestDelegate next, ILogger<GlobalExceptionHandlingMiddleware> logger, ITempDataDictionaryFactory tempDataDictionaryFactory)
         {
             _next = next;
             _logger = logger;
             _tempDataDictionaryFactory = tempDataDictionaryFactory;
+            // _toastNotification = toastNotification;
         }
 
         public async Task InvokeAsync(HttpContext context)
@@ -40,9 +43,7 @@ namespace GP.Infrastructure.Middlewares
             var action = context.Request.RouteValues["action"]!.ToString();
             var area = context.Request.RouteValues["area"]?.ToString();
 
-            ITempDataDictionary tempData = _tempDataDictionaryFactory.GetTempData(context);
-            tempData["ErrorMessage"] = context.Items["ErrorMessage"];
-            tempData.Save();
+            // _toastNotification.AddErrorToastMessage(exception.Message);
 
             if (exception is RecordNotFoundException)
             {

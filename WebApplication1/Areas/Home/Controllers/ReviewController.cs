@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Authorization;
 using GP.Application.Commands.ReviewCommands.AddReviewCommand;
 using GP.Application.Commands.ReviewCommands.DeleteReviewCommand;
 using GP.Application.Queries.UserQueries.GetAuthUser;
+using NToastNotify;
 
 namespace GP.MVC.Areas.Home.Controllers
 {
@@ -17,16 +18,26 @@ namespace GP.MVC.Areas.Home.Controllers
     public class ReviewController : BaseController
     {
         private readonly ILogger<ReviewController> _logger;
+        private readonly IToastNotification _toastNotification;
 
-        public ReviewController(ILogger<ReviewController> logger)
+        public ReviewController(ILogger<ReviewController> logger, IToastNotification toastNotification)
         {
             _logger = logger;
+            _toastNotification = toastNotification;
         }
 
         [HttpGet("/Review/Delete/{blogId}/{id}")]
         public async Task<IActionResult> Delete(Guid id, Guid blogId)
         {
             var review = await Mediator.Send(new DeleteReviewCommand(new DeleteReviewRequest{ Id = id }));
+            if (!review.IsSuccedd)
+            {
+                _toastNotification.AddErrorToastMessage(review.Message);
+            }
+            else
+            {
+                _toastNotification.AddSuccessToastMessage(review.Message);
+            }
             return RedirectToAction("Detail", "Home", new { area = "Home", id = blogId });
         }
     }

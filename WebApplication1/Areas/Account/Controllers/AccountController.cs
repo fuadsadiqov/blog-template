@@ -13,6 +13,7 @@ using GP.Application.Commands.AccountCommands.SignInUser;
 using AutoWrapper.Wrappers;
 using GP.Application.Commands.UserCommands.CreateUser;
 using GP.Infrastructure.Services;
+using NToastNotify;
 
 namespace GP.MVC.Areas.Account.Controllers
 {
@@ -20,16 +21,14 @@ namespace GP.MVC.Areas.Account.Controllers
     public class AccountController : BaseController
     {
         private readonly ILogger<AccountController> _logger;
-        private readonly IUserRepository _userRepository;
         private readonly SignInService _signInService;
-        private readonly ExceptionService _exceptionService;
-        
-        public AccountController(ILogger<AccountController> logger, IUserRepository userRepository, SignInService signInService, ExceptionService exceptionService)
+        private readonly IToastNotification _toastNotification;
+
+        public AccountController(ILogger<AccountController> logger, SignInService signInService, IToastNotification toastNotification)
         {
             _logger = logger;
-            _userRepository = userRepository;
             _signInService = signInService;
-            _exceptionService = exceptionService;
+            _toastNotification = toastNotification;
         }
 
         public IActionResult Login()
@@ -59,10 +58,20 @@ namespace GP.MVC.Areas.Account.Controllers
                 var password = loginRequest.Password;
                 SignInUserRequest request = new() { EmailOrUsername = email, Password = password, Code = String.Empty, RememberMe =false };
                 var response = await Mediator.Send(new SignInUserCommand(request));
-                return RedirectToAction("Index", "Home", new { Area = "Home" });
+                if (response.IsSigned)
+                {
+                    _toastNotification.AddSuccessToastMessage("Successfully logged in.");
+                    return RedirectToAction("Index", "Home", new { Area = "Home" });
+                }
+                else
+                {
+                    return View(loginRequest);
+                }
             }
-        
-            return View();
+            else
+            {
+                return View(loginRequest);
+            }
         }
         
         [HttpPost]
@@ -81,7 +90,8 @@ namespace GP.MVC.Areas.Account.Controllers
                 };
                 if (registerRequest.Password != registerRequest.ConfirmPassword)
                 {
-                    TempData["ErrorMessage"] = "Şifrələr eyni deyil";
+                    _toastNotification.AddErrorToastMessage("Şifrələr eyni deyil");
+
                     return View(registerRequest);
                 }
                 var response = await Mediator.Send(new CreateUserCommand(request));
@@ -90,12 +100,16 @@ namespace GP.MVC.Areas.Account.Controllers
                     return RedirectToAction("Index", "Home", new { Area = "Home" });
                 }
             }
-            var message = string.Join(". ", ModelState.Values
-                .SelectMany(v => v.Errors)
-                .Select(e => e.ErrorMessage));
-            
-            TempData["ErrorMessage"] = message;
-            return View(registerRequest);
+            else
+            {
+                var message = string.Join(". ", ModelState.Values
+                    .SelectMany(v => v.Errors)
+                    .Select(e => e.ErrorMessage));
+                
+                _toastNotification.AddErrorToastMessage(message);
+                return View(registerRequest);
+            }
+            return View();
         }
 
         public async Task<IActionResult> GoogleResponse()
@@ -105,7 +119,9 @@ namespace GP.MVC.Areas.Account.Controllers
             if (!authenticateResult.Succeeded)
             {
                 var error = authenticateResult.Failure?.Message ?? "Unknown authentication error.";
-                Console.WriteLine($"Authentication failed: {error}");
+                _toastNotification.AddErrorToastMessage(error);
+
+
                 return RedirectToAction("Detail");
             }
 
@@ -118,8 +134,12 @@ namespace GP.MVC.Areas.Account.Controllers
             SignInUserWithGoogleRequest request = new() { Email = email, FullName = fullname };
             var response = await Mediator.Send(new SignInUserWithGoogleCommand(request));
            var s= User.Identity.IsAuthenticated;
-            if (response.IsSigned)
+           if (response.IsSigned)
+           {
+               _toastNotification.AddSuccessToastMessage("Successfully logged in.");
                 return RedirectToAction("Index", "Home", new { area = "Home" });
+
+           }
             else
                 return RedirectToAction("Index");
         }

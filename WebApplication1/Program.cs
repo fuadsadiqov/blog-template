@@ -17,6 +17,7 @@ using GP.Data;
 using GP.DataAccess.Initialize;
 using System.Security.Claims;
 using GP.Infrastructure.Middlewares;
+using NToastNotify;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -139,6 +140,12 @@ builder.Services.ConfigureApplicationCookie(options =>
     options.AccessDeniedPath = "/Account/AccessDenied";
 });
 
+builder.Services.AddMvc().AddNToastNotifyNoty(new NotyOptions {
+    ProgressBar = true,
+    Timeout = 3000,
+    Theme = "mint"
+});
+
 Log.Logger = new LoggerConfiguration().BuildLoggerConfiguration(builder.Services, builder.Configuration).CreateLogger();
 var app = builder.Build();
 
@@ -179,7 +186,7 @@ app.UseRouting();
 app.ConfigureAutoWrapperMiddleware();
 
 // hələki kommentə alıram çünki düzgün işləmir
-// app.UseMiddleware<GlobalExceptionHandlingMiddleware>();
+app.UseMiddleware<GlobalExceptionHandlingMiddleware>();
 
 //app.ConfigureLoggingMiddleware();
 //app.UseMiddleware<UserJwtValidatorsMiddleware>();
@@ -188,6 +195,8 @@ app.UseResponsiveFileManager();
 
 app.UseDefaultFiles();
 app.UseStaticFiles();
+
+app.UseNToastNotify();
 
 app.MapAreaControllerRoute(
     name : "areas",

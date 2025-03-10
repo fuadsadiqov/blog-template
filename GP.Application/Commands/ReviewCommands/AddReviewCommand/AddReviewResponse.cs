@@ -8,5 +8,7 @@ namespace GP.Application.Commands.ReviewCommands.AddReviewCommand
 {
     public class AddReviewResponse
     {
+        public bool IsSuccedd { get; set; }
+        public string? Message { get; set; } = null;
     }
 }

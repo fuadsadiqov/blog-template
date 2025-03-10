@@ -1,14 +1,5 @@
-﻿@{
-    @if (TempData["ErrorMessage"] != null)
-    {
-        @section Scripts {
-            <script>
-            $(function () {
-                alert('@Html.Raw(TempData["ErrorMessage"])');
-            });
-        </script>
-        }
-    }
+﻿@model LoginRequest
+@{
 }
 
 <div class="login-page">
@@ -23,11 +14,11 @@
         <form asp-area="Account" asp-controller="Account" asp-action="Login" class="w-100" method="post">
             <div class="mb-3">
                 <label for="email" class="form-label">Email</label>
-                <input required type="email" name="email" class="form-control" id="email" placeholder="Email">
+                <input required value='@(Model != null ? Model.Email : "")'  type="email" name="email" class="form-control" id="email" placeholder="Email">
             </div>
             <div class="mb-3">
                 <label for="password" class="form-label">Şifrə</label>
-                <input min="8" required type="password" name="password" class="form-control" id="password" placeholder="Şifrə">
+                <input min="8" required value='@(Model != null ? Model.Password : "")'  type="password" name="password" class="form-control" id="password" placeholder="Şifrə">
             </div>
             <button type="submit" class="btn btn-primary w-100">Daxil ol</button>
             <a class="text-decoration-underline d-block text-center mt-4" asp-controller="Account" asp-action="Register">Qeydiyyatdan keç</a>

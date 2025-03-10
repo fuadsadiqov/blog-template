@@ -50,8 +50,6 @@ namespace GP.Application.Commands.AccountCommands.SignInUser
                 throw _exceptionService.AccessDeniedException();
 
             var isSignableUser = (await SignInUser(user, password)).Succeeded;
-            if (!isSignableUser)
-                throw _exceptionService.InvalidSignInException();
 
             return new SignInUserResponse()
             {

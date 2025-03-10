@@ -31,37 +31,50 @@ namespace GP.Application.Commands.ReviewCommands.AddReviewCommand
             var blogId = command.Request.BlogId;
              
             var user = await _userRepository.GetUserByEmailAsync(email);
-
+            
+            var responseMessage = "";
+            bool isSuccedd = true;
+            
             if (message.Trim().Length <= 0) {
-                throw new WrongRequestException("Rəy boşdur");
+                responseMessage = "Rəy boşdur";
+                isSuccedd = false;
             }
 
             var reviewAlreadyExist = await _reviewRepository.GetFirstAsync(r => r.UserId == user.Id && r.BlogId == blogId);
 
             if(reviewAlreadyExist != null)
             {
-                throw new RecordAlreadyExistException("Artıq rəy bildirmisiniz");
+                responseMessage = "Artıq rəy bildirmisiniz";
+                isSuccedd = false;
             }
 
             if(user == null)
             {
-                throw new WrongRequestException("İstifadəçi tapılmadı");
+                responseMessage = "İstifadəçi tapılmadı";
+                isSuccedd = false;
             }
 
-            var review = new Review()
+            if (isSuccedd)
             {
-                Id = Guid.NewGuid(),
-                BlogId = blogId,
-                Message = message,
-                UserId = user.Id,
-                Status = RecordStatusEnum.Active,
-                DateCreated = DateTime.Now
+                var review = new Review()
+                {
+                    Id = Guid.NewGuid(),
+                    BlogId = blogId,
+                    Message = message,
+                    UserId = user.Id,
+                    Status = RecordStatusEnum.Active,
+                    DateCreated = DateTime.Now
+                };
+                await _reviewRepository.AddAsync(review);
+                responseMessage = "Review added successfully";
+                await _unitOfWork.CompleteAsync();   
+            }
+
+            return new AddReviewResponse
+            {
+                IsSuccedd = isSuccedd,
+                Message = responseMessage
             };
-            await _reviewRepository.AddAsync(review);
-
-            await _unitOfWork.CompleteAsync();
-
-            return new AddReviewResponse { };
         }
     }
 }

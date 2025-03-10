@@ -2,6 +2,7 @@
 @using GP.Domain.Entities.Identity
 @inject GP.DataAccess.Repository.CategoryRepository.ICategoryRepository categoryRepository
 @inject GP.DataAccess.Repository.UserRepository.IUserRepository userRepository
+@await Component.InvokeAsync("NToastNotify")
 
 @{
     var categories = categoryRepository.GetAll();

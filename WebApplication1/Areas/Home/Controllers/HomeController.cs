@@ -8,6 +8,8 @@ using GP.DataAccess.Repository.UserRepository;
 using Microsoft.AspNetCore.Authorization;
 using GP.Application.Commands.ReviewCommands.AddReviewCommand;
 using GP.Infrastructure.Services;
+using Microsoft.AspNetCore.Mvc.ViewFeatures;
+using NToastNotify;
 
 namespace GP.MVC.Areas.Home.Controllers
 {
@@ -22,11 +24,13 @@ namespace GP.MVC.Areas.Home.Controllers
     {
         private readonly ILogger<HomeController> _logger;
         private readonly AuthService _authService;
+        private readonly IToastNotification _toastNotification;
 
-        public HomeController(ILogger<HomeController> logger, AuthService authService)
+        public HomeController(ILogger<HomeController> logger, AuthService authService, IToastNotification toastNotification)
         {
             _logger = logger;
             _authService = authService;
+            _toastNotification = toastNotification;
         }
 
         public async Task<IActionResult> Index()
@@ -64,12 +68,6 @@ namespace GP.MVC.Areas.Home.Controllers
             return View(model);
         }
 
-        [HttpGet]
-        public IActionResult Review()
-        {
-            return RedirectToAction("Index");
-        }
-
         [HttpPost]
         public async Task<IActionResult> Review([FromForm] ReviewForm reviewForm)
         {
@@ -78,7 +76,14 @@ namespace GP.MVC.Areas.Home.Controllers
             var email = User.Identity.Name;
 
             var response = await Mediator.Send(new AddReviewCommand(new AddReviewRequest() { Email = email, BlogId = blogId, Message = message }));
-            
+            if (!response.IsSuccedd)
+            {
+                _toastNotification.AddErrorToastMessage(response.Message);
+            }
+            else
+            {
+                _toastNotification.AddSuccessToastMessage(response.Message);
+            }
             return RedirectToAction("Detail", new { id = blogId });
         }
         

@@ -29,16 +29,24 @@ public class DeleteReviewCommandHandler : ICommandHandler<DeleteReviewCommand, D
         var id = command.Request.Id;
         var review = await _reviewRepository.GetFirstAsync(r => r.Id == id);
         var userId = _authService.GetAuthorizedUserId();
-        
+
+        var message = "";
+        bool isSuccedd = true;
         if (userId != null && userId == review.UserId)
         {
             _reviewRepository.Delete(review);
+            message = "Review deleted successfully";
             await _unitOfWork.CompleteAsync(cancellationToken);
         }
         else
         {
-            throw new WrongRequestException();
+            message = "You are not authorized to delete this review.";
+            isSuccedd = false;
         }
-        return new DeleteReviewResponse { };
+        return new DeleteReviewResponse
+        {
+            IsSuccedd = isSuccedd,
+            Message = message
+        };
     }
 }
