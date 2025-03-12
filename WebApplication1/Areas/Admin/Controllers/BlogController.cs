@@ -11,6 +11,7 @@ using GP.Application.Queries.BlogQueries;
 using GP.DataAccess.Repository.CategoryRepository;
 using GP.DataAccess.Repository.TagRepository;
 using GP.MVC.Areas.Admin.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 

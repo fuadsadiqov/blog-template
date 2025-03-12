@@ -37,7 +37,6 @@
     <AdditionalFiles Include="Areas\Admin\Views\Shared\_ValidationScriptsPartial.cshtml" />
     <AdditionalFiles Include="Areas\Home\Views\Home\Detail.cshtml" />
     <AdditionalFiles Include="Areas\Home\Views\Home\Index.cshtml" />
-    <AdditionalFiles Include="Areas\Home\Views\Home\Privacy.cshtml" />
     <AdditionalFiles Include="Areas\Home\Views\Shared\Error.cshtml" />
     <AdditionalFiles Include="Areas\Home\Views\Shared\_Layout.cshtml" />
     <AdditionalFiles Include="Areas\Home\Views\Shared\_ValidationScriptsPartial.cshtml" />
@@ -63,6 +62,7 @@
     <_ContentIncludedByDefault Remove="Areas\Home\Views\Category\Add.cshtml" />
     <_ContentIncludedByDefault Remove="Areas\Home\Views\Category\Edit.cshtml" />
     <_ContentIncludedByDefault Remove="Areas\Home\Views\Category\Index.cshtml" />
+    <_ContentIncludedByDefault Remove="Areas\Home\Views\Blog\Blog.cshtml" />
   </ItemGroup>
 
 </Project>

@@ -5,7 +5,7 @@
 @await Component.InvokeAsync("NToastNotify")
 
 @{
-    var categories = categoryRepository.GetAll();
+    var categories = categoryRepository.GetAll().Take(7);
     User user = new();
     if (User.Identity.IsAuthenticated)
     {
@@ -39,7 +39,7 @@
                             @foreach (var category in categories)
                             {
                                 <li class="nav-item">
-                                    <a class="nav-link text-primary" asp-area="Home" asp-controller="Blog" asp-action="Index">@category.Title</a>
+                                    <a class="nav-link text-primary" asp-area="Home" asp-controller="Home" asp-action="Blog" asp-route-id="@category.Id">@category.Title</a>
                                 </li>
                             }
                         </ul>

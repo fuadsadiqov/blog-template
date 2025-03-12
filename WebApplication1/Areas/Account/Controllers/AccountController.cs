@@ -130,18 +130,16 @@ namespace GP.MVC.Areas.Account.Controllers
 
             var email = claims?.FirstOrDefault(c => c.Type == ClaimTypes.Email)?.Value;
             var fullname = claims?.FirstOrDefault(c => c.Type == ClaimTypes.Name)?.Value;
-            var s2 = User.Identity.IsAuthenticated;
             SignInUserWithGoogleRequest request = new() { Email = email, FullName = fullname };
             var response = await Mediator.Send(new SignInUserWithGoogleCommand(request));
-           var s= User.Identity.IsAuthenticated;
-           if (response.IsSigned)
-           {
-               _toastNotification.AddSuccessToastMessage("Successfully logged in.");
-                return RedirectToAction("Index", "Home", new { area = "Home" });
+               if (response.IsSigned)
+               {
+                   _toastNotification.AddSuccessToastMessage("Successfully logged in.");
+                    return RedirectToAction("Index", "Home", new { area = "Home" });
 
-           }
-            else
-                return RedirectToAction("Index");
+               }
+                else
+                    return RedirectToAction("Index");
         }
 
         public async Task<IActionResult> Logout()

@@ -7,6 +7,7 @@ using GP.Application.Commands.CategoryCommands.DeleteCategoryCommands;
 using GP.Application.Commands.CategoryCommands.UpdateCategoryCommands;
 using GP.DataAccess.Repository.CategoryRepository;
 using GP.MVC.Areas.Admin.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace GP.MVC.Areas.Admin.Controllers
 {

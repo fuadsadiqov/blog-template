@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using GP.DataAccess;
 using Microsoft.EntityFrameworkCore;
 using GP.Infrastructure.Configurations.Queries;
 using GP.Infrastructure.Services;
@@ -25,10 +26,21 @@ namespace GP.Application.BlogQueries.GetAllBlogsQuery
 
         public async Task<GetAllBlogsResponse> Handle(GetAllBlogsQuery query, CancellationToken cancellationToken)
         {
-            List<string> includes = new List<string>(){ "Category", "Tags.Tag" };
-            var blogs = await _repository.GetAll(includes.ToArray()).ToListAsync(cancellationToken);
+            var categoryId = query.Request.CategoryId;
 
-            var result = _mapper.Map<List<Blog>, List<BlogResponse>>(blogs);
+            List<string> includes = new List<string>(){ "Category", "Tags.Tag" };
+            var blogs = _repository.GetAll(includes.ToArray());
+            if (categoryId != null)
+            {
+                blogs = blogs.Where(b => b.CategoryId == categoryId);
+            }
+            
+            if (!query.Request.PagingParameters.IsAll)
+            {
+                blogs = blogs.FindPaged(query.Request.PagingParameters);
+            }
+            
+            var result = _mapper.Map<List<Blog>, List<BlogResponse>>(blogs.ToList());
             
             return new GetAllBlogsResponse()
             {
