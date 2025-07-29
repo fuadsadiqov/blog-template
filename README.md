@@ -9,6 +9,7 @@ While it's currently a blog platform, the project is structured in a way that it
 ## 📦 Project Architecture
 
 This project follows a **layered clean architecture** with clear separation of concerns:
+```
 Solution/
 ├── Core/ # Entities, Enums, Interfaces (domain contracts)
 ├── Domain/ # Domain logic and aggregates
@@ -19,6 +20,7 @@ Solution/
 ├── Logging/ # Serilog, Log abstraction or adapters
 ├── Web/ # ASP.NET MVC project (controllers, views)
 └── Tests/ # (Optional) Unit & integration tests
+```
 
 ---
 
