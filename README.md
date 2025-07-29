@@ -52,7 +52,7 @@ Solution/
 1. Clone the project
 
 ```bash
-git clone https://github.com/your-username/clean-architecture-blog.git
+git clone https://github.com/fuadsadiqov/blog-template
 ```
 2. Open in Visual Studio 2022+ or Rider
 
@@ -114,7 +114,7 @@ RESTful API layer for frontend/mobile use
 
 Unit tests with xUnit & Moq
 
-CQRS with MediatR (optional)
+CQRS with MediatR
 
 🙋‍♂️ Author
 Made with care by @fuadsadiqov
